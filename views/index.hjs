@@ -159,7 +159,21 @@
 
 
     /*brewery results list*/
-    ul#results-list li.list-group-item
+/*    #results-list .list-group-item:hover
+    {
+      background-color: #ddd
+    }*/
+
+    .breweryName
+    {
+      color: #337ab7
+    }
+
+    .breweryName:hover
+    {
+      text-decoration: underline;
+    }
+
   </style>
 
 </html>
