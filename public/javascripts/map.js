@@ -8,8 +8,8 @@ var breweries;
 //TODO default image
 var resultTemplate =
 "<li class='list-group-item'> \
-<p><img style='float:left' height='75px' width='75px' src='https://img.pokemondb.net/sprites/black-white/normal/pikachu.png' alt='icon'> \
-<h4 class='breweryName'>Brewery Name</h4> \
+<p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' width='75px' src='https://img.pokemondb.net/sprites/black-white/normal/pikachu.png' alt='icon'> \
+<h4 class='breweryName'><a>Brewery Name</a></h4> \
 <h6 class='breweryEstablished'></h6> \
 <h5 class='breweryContact' style='clear:left'><a class='website' href='google.com'>Website</a> | <span class='address'>101 Redbird Ct, </span><span class='locality'>Edgewood</span> | <span class='phone'>859.555.5555</span></h5> \
 </p> \
@@ -62,12 +62,11 @@ function listBrewery(brewery)
   console.log(breweryToAdd);
   console.log(brewery);
   
-  //TODO Use new template here
-  // $(breweryToAdd).html(brewery.brewery.name);
-  if (brewery.brewery && brewery.brewery.images && brewery.brewery.images.icon)
+  //TODO Fix Defaults
+  if (brewery.brewery && brewery.brewery.images && brewery.brewery.images.squareMedium)
   {
     var imgTag = $(breweryToAdd).find('img');
-    $(imgTag).prop('src', brewery.brewery.images.icon);
+    $(imgTag).prop('src', brewery.brewery.images.squareMedium);
   }
 
   if (brewery.brewery && brewery.brewery.name)
