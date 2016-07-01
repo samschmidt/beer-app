@@ -40,13 +40,16 @@
 
     <!-- our local scripts -->
     <script src="javascripts/map.js"></script>
-    <script src="javascripts/pagination.js"></script>
+    <script src="javascripts/breweries.js"></script>
+    <script src="javascripts/beer.js"></script>
+    <script src="javascripts/recommendations.js"></script>
   </head>
 
 
 
   <body>
 
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -68,14 +71,18 @@
       </div>
     </nav>
 
+
+
     <div class="container" style="margin-top: 50px">
 
       <div class="starter-template">
         <h1>Beer!!!</h1>
         <p class="lead">Drink Local. Love Local. Love Beer.</p>
 
+
         <input id="zoom-to-location-txt" type="text" placeholder="Enter a Location">
         <input id="zoom-to-location-btn" type="button" value="Center Map">
+
 
         <hr>
       </div>
@@ -91,9 +98,10 @@
     <ul id="results-tabs" class="nav nav-tabs">
       <li role="presentation" class="active" data-section="brewery-results"><a>Breweries</a></li>
       <li role="presentation" data-section="beer-results"><a>Beers</a></li>
-      <li role="presentation" data-section="beer-recommendations"><a>Recommendations</a></li>
+      <li role="presentation" data-section="recommendation-results"><a>Recommendations</a></li>
     </ul>
 
+    <!-- Pagination numbers -->
     <div id="tab-brewery-results" class="tab-section" data-section="brewery-results">
       <nav>
         <ul id="beer-results-pagination" class="pagination">
@@ -103,10 +111,7 @@
             </a>
           </li>
             <!-- <li><a href="#">1</a></li> -->
-            <!-- <li><a href="#">2</a></li> -->
-            <!-- <li><a href="#">3</a></li> -->
-            <!-- <li><a href="#">4</a></li> -->
-            <!-- <li><a href="#">5</a></li> -->
+            <!-- ... -->
           <li class="right-arrow">
             <a aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
@@ -115,26 +120,28 @@
         </ul>
       </nav>
 
-      <!-- Search results go here -->
+      <!-- Search results (breweries) go here -->
       <ul id="results-list" class="list-group">
       </ul>
     </div>
 
     <div id="tab-beer-results" class="tab-section hidden" data-section="beer-results">
       Beers Go Here
+      <!-- Beer results go here -->
+      <ul id="beer-list" class="list-group">
+      </ul>
     </div>
 
-    <div id="tab-beer-recommendations" class="tab-section hidden" data-section="beer-recommendations">
+    <div id="tab-beer-recommendations" class="tab-section hidden" data-section="recommendation-results">
       Beer Recs Go Here
+      <!-- Beer recommendations go here -->
+      <ul id="recommendations-list" class="list-group">
+      </ul>
     </div>
 
 
 
   </body>
-  
-  <!-- <template id="results-row-template"> -->
-    <!-- <li class="list-group-item">Cras justo odio</li> -->
-  <!-- </template> -->
 
 
   <style>
@@ -149,9 +156,10 @@
       margin-left: auto;
       margin-right:auto;
     }
+
+
+    /*brewery results list*/
+    ul#results-list li.list-group-item
   </style>
 
 </html>
-
-
-<script>

@@ -5,9 +5,9 @@ var router = express.Router();
 
 //strings
 var locationQuery = '/v2/locations?postalCode='
-var keyString = '&key=4d484f109c0c282af90081a494c20c08';
+var keyString = 'key=4d484f109c0c282af90081a494c20c08';
 
-var options = {
+var optionsPostal = {
 		host: 'api.brewerydb.com',
 		path: '/v2/locations?postalCode=40508&key=4d484f109c0c282af90081a494c20c08'
 	};
@@ -43,9 +43,9 @@ router.get('/dbreq', function(req, res, next) {
 
 
 	console.log(req.query);
-	options.path = locationQuery + req.query.postalCode + keyString;
+	optionsPostal.path = locationQuery + req.query.postalCode + '&' + keyString;
 
-	http.request(options, callback).end();
+	http.request(optionsPostal, callback).end();
 
 
 	// res.send("hello w");	
@@ -56,12 +56,12 @@ router.get('/dbreq', function(req, res, next) {
 var latlngQuery = '/v2/search/geo/point?lat='
 // var keyString = '&key=4d484f109c0c282af90081a494c20c08';
 
-var options = {
+var optionsLatLng = {
 		host: 'api.brewerydb.com',
 		path: '/v2/search/geo/point?lat=35.772096&lng=-78.638614'
 	};
 
-
+//Search for breweries near a latlng. Uses default distance for now
 router.get('/searchLatLng', function(req, res, next) {
 
 	callback = function(response) {
@@ -82,11 +82,11 @@ router.get('/searchLatLng', function(req, res, next) {
 	}
 
 	console.log(req.query);
-	options.path = latlngQuery + req.query.lat + '&lng=' + req.query.lng + keyString;
+	optionsLatLng.path = latlngQuery + req.query.lat + '&lng=' + req.query.lng + '&' + keyString;
 
-	console.log(options.path);
+	console.log(optionsLatLng.path);
 
-	http.request(options, callback).end();
+	http.request(optionsLatLng, callback).end();
 
 })
 
@@ -94,7 +94,7 @@ router.get('/searchLatLng', function(req, res, next) {
 var beersForBreweryQuery = '/v2/brewery/'
 var slashBeers = '/beers'
 
-var options = {
+var optionsBeers = {
 		host: 'api.brewerydb.com',
 		path: '/v2/brewery/noGtDY/beers'
 		//Bell's by default :)
@@ -119,12 +119,18 @@ router.get('/beersForBrewery', function(req, res, next) {
 		});
 	}
 
+
+	optionsBeers.path = beersForBreweryQuery + req.query.breweryId + slashBeers + '?' + keyString;
+
+
+
+	console.log("path");
+	console.log(optionsBeers.path);
+	console.log("query");
 	console.log(req.query);
-	options.path = beersForBreweryQuery + req.query.id + slashBeers + keyString;
 
-	console.log(options.path);
 
-	http.request(options, callback).end();
+	http.request(optionsBeers, callback).end();
 })
 
 

@@ -5,7 +5,16 @@ var markers = [];
 //Holds the response.data array (list of breweries)
 var breweries;
 
-var resultTemplate = "<li class='list-group-item'>Cras justo odio</li>";
+//TODO default image
+var resultTemplate =
+"<li class='list-group-item'> \
+<p><img style='float:left' height='75px' width='75px' src='https://img.pokemondb.net/sprites/black-white/normal/pikachu.png' alt='icon'> \
+<h4 class='breweryName'>Brewery Name</h4> \
+<h6 class='breweryEstablished'></h6> \
+<h5 class='breweryContact' style='clear:left'><a class='website' href='google.com'>Website</a> | <span class='address'>101 Redbird Ct, </span><span class='locality'>Edgewood</span> | <span class='phone'>859.555.5555</span></h5> \
+</p> \
+</li>"
+;
 var paginationTemplate = "<li class='pagination-item'><a>1</a></li>";
 
 
@@ -49,9 +58,61 @@ function plotBrewery(element, index, array)
 function listBrewery(brewery)
 {
   var breweryToAdd = $.parseHTML(resultTemplate);
+
+  console.log(breweryToAdd);
+  console.log(brewery);
   
-  $(breweryToAdd).html(brewery.brewery.name);
-  
+  //TODO Use new template here
+  // $(breweryToAdd).html(brewery.brewery.name);
+  if (brewery.brewery && brewery.brewery.images && brewery.brewery.images.icon)
+  {
+    var imgTag = $(breweryToAdd).find('img');
+    $(imgTag).prop('src', brewery.brewery.images.icon);
+  }
+
+  if (brewery.brewery && brewery.brewery.name)
+  {
+    var nameElt = $(breweryToAdd).find('.breweryName');
+    $(nameElt).html(brewery.brewery.name);
+  }
+
+  if (brewery.brewery && brewery.brewery.nameShortDisplay)
+  {
+    var imgTag = $(breweryToAdd).find('img');
+    $(imgTag).prop('alt', brewery.brewery.nameShortDisplay);
+  }
+
+  if (brewery.brewery && brewery.brewery.established)
+  {
+    var estElt = $(breweryToAdd).find('.breweryEstablished');
+    $(estElt).html('Est. ' + brewery.brewery.established);
+  }  
+
+  if (brewery.brewery && brewery.brewery.website)
+  {
+    var websiteElt = $(breweryToAdd).find('.breweryContact .website');
+    $(websiteElt).prop('href', brewery.brewery.website);
+  }  
+
+  if (brewery.streetAddress)
+  {
+    var addrElt = $(breweryToAdd).find('.breweryContact .address');
+    $(addrElt).html(brewery.streetAddress + ', ');
+  }  
+
+  if (brewery.locality)
+  {
+    var localityElt = $(breweryToAdd).find('.breweryContact .locality');
+    $(localityElt).html(brewery.locality);
+  }  
+
+  if (brewery.phone)
+  {
+    var phoneElt = $(breweryToAdd).find('.breweryContact .phone');
+    $(phoneElt).html(brewery.phone.replace(/\D/g, ' ').replace(/\s+/g, '.').replace(/^\./, '').replace(/\.$/, ''));
+  }  
+
+  //Insert the new brewery into the page
   $('#results-list').append(breweryToAdd);
 }
 
@@ -63,10 +124,12 @@ function plotBreweries(response)
   console.log("Plot the breweries!");
 
   //If no breweries found
-  //TODO display some message
+  //TODO display some better message
   if (response.data === undefined)
+  {
+    alert('Sorry, we could find no breweries in that area!');
     return;
-
+  }
   //Save breweries from response
   breweries = response.data;
 
@@ -80,16 +143,22 @@ function plotBreweries(response)
   map.fitBounds(bounds);
 
 
-  //Display the first 5 breweries in search results
-  for (var i=0; i<5; i++)
+  //Clear breweries from list
+  $('#results-list').empty();
+
+  //Display the first paginationSize breweries in search results
+  for (var i=0; i<paginationSize; i++)
   {
     listBrewery(breweries[i]);
   }
 
-  //add a nav button for every 5 breweries, up to 5
-  for (var i=0; i<breweries.length/5 && i<5; i++)
-  {
 
+  //Clear pagination numbers
+  $('#beer-results-pagination li.pagination-item').remove();
+
+  //add a nav button for every paginationSize breweries, up to 5
+  for (var i=0; i<breweries.length/paginationSize && i<5; i++)
+  {
     var paginationToAdd = $.parseHTML(paginationTemplate);
 
     $(paginationToAdd).children().html(i+1);
@@ -101,6 +170,8 @@ function plotBreweries(response)
   currentPage = 1;
   $('#beer-results-pagination .pagination-item').first().addClass('active');
 
+  //Select the breweries tab
+  showTabBreweries();
 
 
   // console.log("\t"+breweriesArr[0].brewery.name);
@@ -214,7 +285,7 @@ $( document ).ready( function() {
  
   $('#results-tabs li').click(function() {
 
-    //diable all tabs
+    //disable all tabs
     $('#results-tabs li').removeClass('active');
 
     //enable the clicked tab
@@ -237,6 +308,51 @@ $( document ).ready( function() {
 
   });
 
+});
+
+
+function showTabBreweries()
+{
+  showTab('brewery-results');
+}
+
+function showTabBeers()
+{
+  showTab('beer-results');
+}
+
+function showTabRecommendations()
+{
+  showTab('recommendation-results');
+}
+
+function showTab(sectionName)
+{
+  $('#results-tabs li').removeClass('active');
+
+  $('#results-tabs li[data-section="' + sectionName + '"]').addClass('active');
+
+  //disable all tab-sections
+  var sections = $('.tab-section');
+  sections.addClass('hidden');
+
+  $('.tab-section[data-section="' + sectionName + '"]').removeClass('hidden');
+}
+
+//When the user presses enter in the location box, trigger the search
+$( document ).ready( function() {
+  $("#zoom-to-location-txt").bind("keypress", {}, keypressInBox);
+
+  function keypressInBox(e) {
+      var code = (e.keyCode ? e.keyCode : e.which);
+      if (code == 13) { //Enter keycode                        
+          e.preventDefault();
+
+          console.log("enter pressed in box");
+
+          $("#zoom-to-location-btn").click();
+      }
+  };
 });
 
 
