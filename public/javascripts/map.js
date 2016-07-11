@@ -8,10 +8,11 @@ var breweries;
 //TODO default image
 var resultTemplate =
 "<li class='list-group-item'> \
-<p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' width='75px' src='https://img.pokemondb.net/sprites/black-white/normal/pikachu.png' alt='icon'> \
+<p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' max-width='75px' src='images/no_image_available.png' alt='No Image Available'> \
 <h4 class='breweryName'><a>Brewery Name</a></h4> \
-<h6 class='breweryEstablished'></h6> \
-<h5 class='breweryContact' style='clear:left'><a class='website' href='google.com'>Website</a> | <span class='address'>101 Redbird Ct, </span><span class='locality'>Edgewood</span> | <span class='phone'>859.555.5555</span></h5> \
+<h5 class='breweryType'></h5> \
+<h5 class='breweryOpen'></h5> \
+<h5 class='breweryContact' style='clear:left'><a class='website'>Website</a><span class='pipe'> | </span><span class='address-and-locality'><span class='address'></span><span class='locality'></span></span><span class='pipe'> | </span><span class='phone'>No Phone</span></h5> \
 </p> \
 </li>"
 ;
@@ -67,6 +68,19 @@ function listBrewery(brewery)
   {
     var imgTag = $(breweryToAdd).find('img');
     $(imgTag).prop('src', brewery.brewery.images.squareMedium);
+
+    if (brewery.brewery.nameShortDisplay)
+    {
+      $(imgTag).prop('alt', brewery.brewery.nameShortDisplay + 'Logo');
+    }
+    else if (brewery.brewery.name)
+    {
+      $(imgTag).prop('alt', brewery.brewery.nameShortDisplay + 'Logo');
+    }
+    else
+    {
+      $(imgTag).prop('alt', 'Brewery Logo');
+    }
   }
 
   if (brewery.brewery && brewery.brewery.name)
@@ -75,23 +89,79 @@ function listBrewery(brewery)
     $(nameElt).html(brewery.brewery.name);
   }
 
-  if (brewery.brewery && brewery.brewery.nameShortDisplay)
+  
+
+  // if (brewery.brewery && brewery.brewery.established)
+  // {
+  //   var estElt = $(breweryToAdd).find('.breweryEstablished');
+  //   $(estElt).html('Est. ' + brewery.brewery.established);
+  // }  
+
+  if (brewery.isClosed)
   {
-    var imgTag = $(breweryToAdd).find('img');
-    $(imgTag).prop('alt', brewery.brewery.nameShortDisplay);
+    var openElt = $(breweryToAdd).find('.breweryOpen');
+
+    if (brewery.isClosed === "Y")
+    {
+      if (brewery.yearClosed)
+      {
+        $(openElt).html('CLOSED since ' + brewery.yearClosed);        
+      }
+      else
+      {
+        $(openElt).html('CLOSED');
+      }
+
+      $(openElt).css('color', 'red');
+    }
+    //TODO make green? or not
+    else if (brewery.isClosed === 'N')
+    {
+      // if (brewery.yearOpened)
+      // {
+      //   $(openElt).html('Opened ' + brewery.yearOpened);        
+      // }
+      //  else
+      // {
+      //   $(openElt).html('Open');
+      // }
+
+      //if brewery is not closed but is not open to public
+      if (brewery.openToPublic && brewery.openToPublic === "N")
+      {
+        $(openElt).html('Not open to the public');
+        $(openElt).css('color', 'red');
+      }
+    }
   }
 
-  if (brewery.brewery && brewery.brewery.established)
+  if (brewery.locationTypeDisplay)
   {
-    var estElt = $(breweryToAdd).find('.breweryEstablished');
-    $(estElt).html('Est. ' + brewery.brewery.established);
-  }  
+    var typeElt = $(breweryToAdd).find('.breweryType');
+
+    $(typeElt).html(brewery.locationTypeDisplay);        
+  }
+
+
 
   if (brewery.brewery && brewery.brewery.website)
   {
     var websiteElt = $(breweryToAdd).find('.breweryContact .website');
-    $(websiteElt).prop('href', brewery.brewery.website);
-  }  
+
+    if ( brewery.brewery.website !== "")
+    {
+      $(websiteElt).prop('href', brewery.brewery.website);
+    }
+  }
+  else
+  {
+    var websiteElt = $(breweryToAdd).find('.breweryContact .website');
+
+    $(websiteElt).html('No Website');
+
+    $(websiteElt).css('text-decoration', 'none');
+    $(websiteElt).css('color', 'black');
+  }
 
   if (brewery.streetAddress)
   {

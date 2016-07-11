@@ -41,23 +41,27 @@ function listBeers(brewery)
     
 		console.log(response);
 
-		console.log("list beers for brewery");
-
 		beers = response.data;
 
-		//Clear beers from list
-		$('#beer-list').empty();
-
+		
 
 		//TODO clean this up
-		if (beers === undefined || beers.length === 0)
+		if (beers === undefined || beers.lenght === undefined || beers.length === 0)
 		{
 			//If no beers, show an informative message
 			alert("We couldn't find any beers associated with the brewery: " + brewery.brewery.name);
 			return;
 		}
 
+		console.log("list beers for brewery (" + beers.length + " beers.)");
+
+		//Clear beers from list
+		$('#beer-list').empty();
+
+
 		//List the beers on the page
+		// beers.forEach(listYearRoundBeers);
+
 		beers.forEach(listBeer);
 
 		// //Hide all current tab-sections
@@ -74,9 +78,33 @@ function listBeers(brewery)
 //Add a brewery to the results list
 function listBeer(beer, index, array)
 {
-  var beerToAdd = $.parseHTML(beerTemplate);
-  
-  $(beerToAdd).html(beer.name);
-  
-  $('#beer-list').append(beerToAdd);
+	//if (beer === undefined)
+
+	var beerToAdd = $.parseHTML(beerTemplate);
+
+	console.log(beer);
+
+	$(beerToAdd).html(beer.name);
+
+	$('#beer-list').append(beerToAdd);
 }
+
+function listYearRoundBeers(beer, index, array)
+{
+	console.log(beer);
+
+	if (beer.available && beer.available.id && beer.available.id === 1)
+		listBeer(beer, 0, undefined);
+
+	array.splice(index, 1);
+}
+
+// function listOtherBeers(beer, index, array)
+// {
+// 	//console.log(beer);
+
+// 	if (beer.available.id !== 1)
+// 		listBeer(beer, 0, undefined);
+
+// 	// array.splice(index, 1);
+// }
