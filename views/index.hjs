@@ -76,11 +76,9 @@
         </div><!--/.nav-collapse -->
       </div>
     <!-- </nav> -->
-  </div>
-
-    <!-- Google Maps map -->
-    <div id="map" style="min-height=25px; min-width=25px">
     </div>
+
+
 
 
     <!-- Non-map content. Size it to account for the added 50px under header -->
@@ -104,6 +102,17 @@
         </div>
 
       </div><!-- /.container -->
+
+
+
+
+
+      <!-- Google Maps map -->
+      <div id="map" style="min-height=25px; min-width=25px">
+      </div>
+
+
+
 
 
 
@@ -137,9 +146,9 @@
 
           <!-- Search results (breweries) go here -->
           <div>
-          <ul id="results-list" class="list-group">
-          </ul>
-        </div>
+            <ul id="results-list" class="list-group">
+            </ul>
+          </div>
         </span>
 
         <span id="tab-beer-results" class="tab-section hidden" data-section="beer-results">
@@ -155,10 +164,9 @@
           <ul id="recommendations-list" class="list-group">
           </ul>
         </span>
-      <div>
+      </div>
     <!-- </div> -->
   <!-- </div> -->
-
 
   </body>
 
@@ -181,8 +189,8 @@
 
 
 
-    #map {
-    }
+    /*#map {*/
+    /*}*/
 
     /*brewery results list*/
 /*    #results-list .list-group-item:hover
@@ -247,7 +255,7 @@
     @media (min-width: 501px) and (max-width: 800px) {
       #map {
         /*float: right;*/
-        height: 40%;
+        height: 50%;
         width: 75%;
         margin-left: auto;
         margin-right: auto;
