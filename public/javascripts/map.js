@@ -5,7 +5,6 @@ var markers = [];
 //Holds the response.data array (list of breweries)
 var breweries;
 
-//TODO default image
 var resultTemplate =
 "<li class='list-group-item'> \
 <p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' max-width='75px' src='images/no_image_available.png' alt='No Image Available'> \
