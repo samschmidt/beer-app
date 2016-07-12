@@ -46,7 +46,7 @@ function listBeers(brewery)
 		
 
 		//TODO clean this up
-		if (beers === undefined || beers.lenght === undefined || beers.length === 0)
+		if (beers === undefined || beers.length === undefined || beers.length === 0)
 		{
 			//If no beers, show an informative message
 			alert("We couldn't find any beers associated with the brewery: " + brewery.brewery.name);
