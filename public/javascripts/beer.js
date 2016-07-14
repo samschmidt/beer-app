@@ -1,5 +1,16 @@
 var beers;
-var beerTemplate = "<li class='list-group-item'>Cras justo odio</li>";
+// var beerTemplate = "<li class='list-group-item'>Cras justo odio</li>";
+
+var beerTemplate =
+"<li class='list-group-item'> \
+<p><img class='main-img' style='float:left; margin-right: 10px;' height='100px' max-width='75px' src='images/no_image_available.png' alt='No Image Available'> \
+<h4 class='beerName'><a>Beer Name</a></h4> \
+<h5 class='beerStyle'>Style</h5> \
+<h5 class='beerInfo' style='clear:left'><span class='abv'>ABV%</span><span class='pipe'> | </span><span class='ibu'></span><span class='pipe'> | </span></h5><img style='float:right;' height='25px' max-width='25px' src='images/no_image_available.png' alt='No Image Available'> \
+</p> \
+</li>"
+;
+
 
 $( document ).ready( function() {
 	
@@ -84,7 +95,26 @@ function listBeer(beer, index, array)
 
 	console.log(beer);
 
-	$(beerToAdd).html(beer.name);
+
+	if (beer.nameDisplay)
+	{
+		var nameElt = $(beerToAdd).find('.beerName');
+		$(nameElt).html(beer.nameDisplay);
+	}
+	else if (beer.name)
+	{
+		var nameElt = $(beerToAdd).find('.beerName');
+		$(nameElt).html(beer.name);
+	}
+
+	if (beer.labels && beer.labels.medium)
+	{
+		var imgElt = $(beerToAdd).find('img.main-img');
+		$(imgElt).prop('src', beer.labels.medium);
+	}
+
+
+	// $(beerToAdd).html(beer.name);
 
 	$('#beer-list').append(beerToAdd);
 }
