@@ -3,10 +3,11 @@ var beers;
 
 var beerTemplate =
 "<li class='list-group-item'> \
-<p><img class='main-img' style='float:left; margin-right: 10px;' height='100px' max-width='75px' src='images/no_image_available.png' alt='No Image Available'> \
-<h4 class='beerName'><a>Beer Name</a></h4> \
+<p><img class='main-img' style='float:left; margin-right: 10px;' height='100px' max-width='75px'> \
+<h4 class='beerName resultName'><a>Beer Name</a></h4> \
 <h5 class='beerStyle'>Style</h5> \
-<h5 class='beerInfo' style='clear:left'><span class='abv'>ABV%</span><span class='pipe'> | </span><span class='ibu'></span><span class='pipe'> | </span></h5><img style='float:right;' height='25px' max-width='25px' src='images/no_image_available.png' alt='No Image Available'> \
+<h5 class='beerInfo' style='line-height: 25px'><span class='abv'></span><span class='pipe'> | </span><span class='ibu'></span> \
+<img style='float:right;' height='40px' max-width='40px' src='images/testPint.png' alt='No Image Available'></h5> \
 </p> \
 </li>"
 ;
@@ -111,10 +112,49 @@ function listBeer(beer, index, array)
 	{
 		var imgElt = $(beerToAdd).find('img.main-img');
 		$(imgElt).prop('src', beer.labels.medium);
+
+		//Then we must clear:left the info element so it appears below the img
+		//also re-add the auto indent
+		// var infoElt = $(beerToAdd).find('.beerInfo');
+		// $(infoElt).css('clear', 'left');
+		// $(infoElt).css('margin-left', '10px');
+		// $(imgElt).css('margin-left', '10px');
 	}
 
+	if (beer.style && beer.style.name)
+	{
+		var styleElt = $(beerToAdd).find('.beerStyle');
+		$(styleElt).html(beer.style.name);
+	}
+
+	if (beer.abv)
+	{
+		var abvElt = $(beerToAdd).find('.abv');
+		$(abvElt).html(beer.abv + '% ABV');
+	}
+	else if (beer.style && beer.style.abvMin && beer.style.abvMax)
+	{
+		var abvElt = $(beerToAdd).find('.abv');
+		$(abvElt).html(beer.style.abvMin + '-' + beer.style.abvMax + '% ABV');
+	}
+
+	if (beer.ibu)
+	{
+		var ibuElt = $(beerToAdd).find('.ibu');
+		$(ibuElt).html(beer.ibu + ' IBUs');
+	}
+	else if (beer.style && beer.style.ibuMin && beer.style.ibuMax)
+	{
+		var ibuElt = $(beerToAdd).find('.ibu');
+		$(ibuElt).html(beer.style.ibuMin + '-' + beer.style.ibuMax + ' IBUs');
+	}
 
 	// $(beerToAdd).html(beer.name);
+
+	//TODO logic for glassware image
+	//may need to default to what the style typically takes
+	//this will take some work
+	//https://www.beeradvocate.com/beer/101/glassware/
 
 	$('#beer-list').append(beerToAdd);
 }

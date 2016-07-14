@@ -152,7 +152,6 @@
         </span>
 
         <span id="tab-beer-results" class="tab-section hidden" data-section="beer-results">
-          Beers Go Here
           <!-- Beer results go here -->
           <ul id="beer-list" class="list-group">
           </ul>
@@ -198,12 +197,12 @@
       background-color: #ddd
     }*/
 
-    .breweryName
+    .resultName
     {
       color: #337ab7
     }
 
-    .breweryName:hover
+    .resultName:hover
     {
       text-decoration: underline;
     }
@@ -306,7 +305,7 @@
         height: 100%;
         overflow: scroll;
         position: fixed;
-        top: 250px;"
+        top: 250px;
       }
 
       .header-container {

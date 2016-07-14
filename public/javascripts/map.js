@@ -8,7 +8,7 @@ var breweries;
 var resultTemplate =
 "<li class='list-group-item'> \
 <p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' max-width='75px' src='images/no_image_available.png' alt='No Image Available'> \
-<h4 class='breweryName'><a>Brewery Name</a></h4> \
+<h4 class='breweryName resultName'><a>Brewery Name</a></h4> \
 <h5 class='breweryType'></h5> \
 <h5 class='breweryOpen'></h5> \
 <h5 class='breweryContact' style='clear:left'><a class='website'>Website</a><span class='pipe'> | </span><span class='address-and-locality'><span class='address'></span><span class='locality'></span></span><span class='pipe'> | </span><span class='phone'>No Phone</span></h5> \
