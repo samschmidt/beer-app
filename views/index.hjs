@@ -126,24 +126,25 @@
         </ul>
 
         <!-- Pagination numbers -->
-        <span id="tab-brewery-results" class="tab-section" data-section="brewery-results">
-          <nav>
-            <ul id="beer-results-pagination" class="pagination">
-              <li class="left-arrow">
-                <a aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-                <!-- <li><a href="#">1</a></li> -->
-                <!-- ... -->
-              <li class="right-arrow">
-                <a aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+        <nav>
+          <ul id="results-pagination" class="pagination">
+            <li class="left-arrow">
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+              <!-- <li><a href="#">1</a></li> -->
+              <!-- ... -->
+            <li class="right-arrow">
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
+
+        <span id="tab-brewery-results" class="tab-section" data-section="brewery-results">
           <!-- Search results (breweries) go here -->
           <div>
             <ul id="results-list" class="list-group">
@@ -158,7 +159,6 @@
         </span>
 
         <span id="tab-beer-recommendations" class="tab-section hidden" data-section="recommendation-results">
-          Beer Recs Go Here
           <!-- Beer recommendations go here -->
           <ul id="recommendations-list" class="list-group">
           </ul>

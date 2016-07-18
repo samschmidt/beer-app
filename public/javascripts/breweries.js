@@ -4,7 +4,7 @@ var paginationSize = 5;
 
 //When left arrow is clicked
 $( document ).ready( function() {
-	$('#beer-results-pagination .left-arrow').click(function() {
+	$('#results-pagination .left-arrow').click(function() {
 
 		//Check if we're at first page
 		if (checkIfFirstPage())
@@ -30,7 +30,7 @@ $( document ).ready( function() {
 	})
 
 	//When right arrow is clicked
-	$('#beer-results-pagination .right-arrow').click(function() {
+	$('#results-pagination .right-arrow').click(function() {
 
 
 		//Check if we're at last page
@@ -57,7 +57,7 @@ $( document ).ready( function() {
 	});
 
 	//When an item is clicked
-	$('#beer-results-pagination').on('click', '.pagination-item', function() {
+	$('#results-pagination').on('click', '.pagination-item', function() {
 
 		//get number from clicked element
 		var newPageNum = $(this).children().html();
@@ -90,7 +90,7 @@ $( document ).ready( function() {
 function showNewActivePagination(interval) 
 {
 	//Get all pagination elements
-	var paginationItems = $('#beer-results-pagination .pagination-item');
+	var paginationItems = $('#results-pagination .pagination-item');
 
 	//Remove active class from old page number
 	var oldPageJquery = $(paginationItems).get(currentPage-1);
@@ -111,12 +111,12 @@ function checkIfFirstPage()
 	if (currentPage === 1)
 	{
 		//Disable arrow
-		$('#beer-results-pagination .left-arrow').addClass('disabled');
+		$('#results-pagination .left-arrow').addClass('disabled');
 
 		return true;
 	}
 
-	$('#beer-results-pagination .left-arrow').removeClass('disabled');
+	$('#results-pagination .left-arrow').removeClass('disabled');
 
 	return false;
 }
@@ -128,12 +128,12 @@ function checkIfLastPage()
 	if (currentPage === Math.floor(breweries.length / paginationSize) + 1)
 	{
 		//Disable arrow
-		$('#beer-results-pagination .right-arrow').addClass('disabled');
+		$('#results-pagination .right-arrow').addClass('disabled');
 
 		return true;
 	}
 
-	$('#beer-results-pagination .right-arrow').removeClass('disabled');
+	$('#results-pagination .right-arrow').removeClass('disabled');
 
 	return false;
 }

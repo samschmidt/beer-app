@@ -7,7 +7,7 @@ var beerTemplate =
 <h4 class='beerName resultName'><a>Beer Name</a></h4> \
 <h5 class='beerStyle'>Style</h5> \
 <h5 class='beerInfo' style='line-height: 25px'><span class='abv'></span><span class='pipe'> | </span><span class='ibu'></span> \
-<img style='float:right;' height='40px' max-width='40px' src='images/testPint.png' alt='No Image Available'></h5> \
+<img class='beerGlass' style='float:right;' height='40px' max-width='40px'></h5> \
 </p> \
 </li>"
 ;
@@ -149,12 +149,20 @@ function listBeer(beer, index, array)
 		$(ibuElt).html(beer.style.ibuMin + '-' + beer.style.ibuMax + ' IBUs');
 	}
 
-	// $(beerToAdd).html(beer.name);
-
 	//TODO logic for glassware image
 	//may need to default to what the style typically takes
 	//this will take some work
 	//https://www.beeradvocate.com/beer/101/glassware/
+	if (beer.glass && beer.glass.id)
+	{
+		var glassElt = $(beerToAdd).find('.beerGlass');
+		$(glassElt).prop('src', 'images/glass' + beer.glass.id +'.png');
+	}
+	else if (beer.glasswareId)
+	{
+		var glassElt = $(beerToAdd).find('.beerGlass');
+		$(glassElt).prop('src', 'images/glass' + beer.glasswareId +'.png');
+	}
 
 	$('#beer-list').append(beerToAdd);
 }

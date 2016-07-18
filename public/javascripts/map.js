@@ -222,7 +222,7 @@ function plotBreweries(response)
 
 
   //Clear pagination numbers
-  $('#beer-results-pagination li.pagination-item').remove();
+  $('#results-pagination li.pagination-item').remove();
 
   //add a nav button for every paginationSize breweries, up to 5
   for (var i=0; i<breweries.length/paginationSize && i<5; i++)
@@ -231,12 +231,12 @@ function plotBreweries(response)
 
     $(paginationToAdd).children().html(i+1);
 
-    $('#beer-results-pagination .right-arrow').before(paginationToAdd);
+    $('#results-pagination .right-arrow').before(paginationToAdd);
   }
 
   //set the current page variable (pagination.js)
   currentPage = 1;
-  $('#beer-results-pagination .pagination-item').first().addClass('active');
+  $('#results-pagination .pagination-item').first().addClass('active');
 
   //Select the breweries tab
   showTabBreweries();
