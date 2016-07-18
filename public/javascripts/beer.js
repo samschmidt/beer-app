@@ -94,7 +94,7 @@ function listBeer(beer, index, array)
 
 	var beerToAdd = $.parseHTML(beerTemplate);
 
-	console.log(beer);
+	// console.log(beer);
 
 
 	if (beer.nameDisplay)

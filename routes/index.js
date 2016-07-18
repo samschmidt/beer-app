@@ -88,7 +88,7 @@ router.get('/searchLatLng', function(req, res, next) {
 
 	http.request(optionsLatLng, callback).end();
 
-})
+});
 
 //strings
 var beersForBreweryQuery = '/v2/brewery/'
@@ -131,7 +131,57 @@ router.get('/beersForBrewery', function(req, res, next) {
 
 
 	http.request(optionsBeers, callback).end();
-})
+});
+
+
+//
+//
+//
+//strings
+var breweriesForBeerQuery = '/v2/beer/'
+var slashBreweries = '/breweries'
+
+var optionsBreweries = {
+		host: 'api.brewerydb.com',
+		path: '/v2/brewery/noGtDY/beers'
+		//Bell's by default :)
+	};
+
+router.get('/breweriesForBeer', function(req, res, next) {
+	
+	callback = function(response) {
+		// console.log('beersForBrewery1');
+	  	var str = '';
+
+		//another chunk of data has been recieved, so append it to `str`
+		response.on('data', function (chunk) {
+			// console.log("beersForBrewery2");
+			str += chunk;
+		});
+
+		//the whole response has been recieved, so we just print it out here
+		response.on('end', function () {
+			// console.log("beersForBrewery3");
+			res.send(str);
+		});
+	}
+
+
+	optionsBreweries.path = breweriesForBeerQuery + req.query.beerId + slashBreweries + '?' + keyString;
+
+
+
+	console.log("pathBreweries");
+	console.log(optionsBreweries.path);
+	console.log("queryBreweries");
+	console.log(req.query);
+
+
+	http.request(optionsBreweries, callback).end();
+});
+
+
+
 
 
 module.exports = router;

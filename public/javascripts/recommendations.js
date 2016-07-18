@@ -70,8 +70,6 @@ function addBeerstoArray(response)
 
 	//Fastest way to empty array
 	//http://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
-
-
 	for (var i=0; i<beers.length; i++)
 	{
 		// beerRecs.push(beers[i]);
@@ -133,9 +131,95 @@ function processAndListRecs(clickedBeer)
 //Add a brewery to the results list
 function listBeerRec(beerRec, index, array)
 {
-  var recToAdd = $.parseHTML(beerRecTemplate);
+	listBeer(beerRec, index, array);
+
+  // var recToAdd = $.parseHTML(beerRecTemplate);
+
+
+
+	var recToAdd = $.parseHTML(beerTemplate);
+
+	console.log(beerRec);
+
+	//TODO use premium method of brewery/beers?withBreweries=Y
+	//Jquery AJAX
+	$.get('/breweriesForBeer?beerId=' + beerRec.id,
+	    insertBreweryNameIntoRec(recToAdd),
+	    "json");
+
+
+	if (beerRec.nameDisplay)
+	{
+		var nameElt = $(recToAdd).find('.beerName');
+		$(nameElt).html(beerRec.nameDisplay);
+	}
+	else if (beerRec.name)
+	{
+		var nameElt = $(recToAdd).find('.beerName');
+		$(nameElt).html(beerRec.name);
+	}
+
+	if (beerRec.labels && beerRec.labels.medium)
+	{
+		var imgElt = $(recToAdd).find('img.main-img');
+		$(imgElt).prop('src', beerRec.labels.medium);
+
+		//Then we must clear:left the info element so it appears below the img
+		//also re-add the auto indent
+		// var infoElt = $(recToAdd).find('.beerInfo');
+		// $(infoElt).css('clear', 'left');
+		// $(infoElt).css('margin-left', '10px');
+		// $(imgElt).css('margin-left', '10px');
+	}
+
+	if (beerRec.style && beerRec.style.name)
+	{
+		var styleElt = $(recToAdd).find('.beerStyle');
+		$(styleElt).html(beerRec.style.name);
+	}
+
+	if (beerRec.abv)
+	{
+		var abvElt = $(recToAdd).find('.abv');
+		$(abvElt).html(beerRec.abv + '% ABV');
+	}
+	else if (beerRec.style && beerRec.style.abvMin && beerRec.style.abvMax)
+	{
+		var abvElt = $(recToAdd).find('.abv');
+		$(abvElt).html(beerRec.style.abvMin + '-' + beerRec.style.abvMax + '% ABV');
+	}
+
+	if (beerRec.ibu)
+	{
+		var ibuElt = $(recToAdd).find('.ibu');
+		$(ibuElt).html(beerRec.ibu + ' IBUs');
+	}
+	else if (beerRec.style && beerRec.style.ibuMin && beerRec.style.ibuMax)
+	{
+		var ibuElt = $(recToAdd).find('.ibu');
+		$(ibuElt).html(beerRec.style.ibuMin + '-' + beerRec.style.ibuMax + ' IBUs');
+	}
+
+
+
   
-  $(recToAdd).html(beerRec.name);
-  
-  $('#recommendations-list').append(recToAdd);
+	$('#recommendations-list').append(recToAdd);
+}
+
+function insertBreweryNameIntoRec(recToAdd)
+{
+	return function(response, textStatus, jqXHR) {
+    
+    	console.log("testestestestes");
+		console.log(response);
+
+		breweries = response.data;
+
+
+		if (breweries !== undefined)
+		{
+			var styleElt = $(recToAdd).find('.beerInfo');
+			$(styleElt).html(breweries[0].name);
+		}
+	}
 }
