@@ -469,7 +469,9 @@ function showTab(sectionName)
   }
 
   //Display the new tab's current page on the pagination numbers
-  showNewActivePagination(currentPage - oldPage);
+  var interval = currentPage - oldPage;
+  currentPage = oldPage;      //Must edit currentPage so next line edits it to correct value (yay globals...)
+  showNewActivePagination(interval);
 }
 
 //When the user presses enter in the location box, trigger the search
