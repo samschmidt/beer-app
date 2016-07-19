@@ -1,5 +1,5 @@
 var beerRecs = [];
-var beerRecTemplate = "<li class='list-group-item'>Rec Template</li>";
+// var beerRecTemplate = "<li class='list-group-item'>Rec Template</li>";
 
 //TODO make the template much better
 //show brewery, etc.
@@ -203,8 +203,6 @@ function listBeerRec(beerRec, index, array)
 		var ibuElt = $(recToAdd).find('.ibu');
 		$(ibuElt).html(beerRec.style.ibuMin + '-' + beerRec.style.ibuMax + ' IBUs');
 	}
-
-
 
   
 	$('#recommendations-list').append(recToAdd);

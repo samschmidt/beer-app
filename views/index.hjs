@@ -42,6 +42,7 @@
 
     <!-- our local scripts -->
     <script src="javascripts/map.js"></script>
+    <script src="javascripts/pagination.js"></script>
     <script src="javascripts/breweries.js"></script>
     <script src="javascripts/beer.js"></script>
     <script src="javascripts/recommendations.js"></script>

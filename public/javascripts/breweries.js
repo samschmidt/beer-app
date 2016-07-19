@@ -1,204 +1,146 @@
-//1-indexed, 0 when no pages visible
-var currentPage = 0;
+//Holds the response.data array (list of breweries)
+var breweries = [];
 
-var breweryPage = 0;
-var beerPage = 0;
-var recPage = 0;
+var resultTemplate =
+"<li class='list-group-item'> \
+<p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' max-width='75px' \
+ src='images/no_image_available.png' alt='No Image Available'> \
+<h4 class='breweryName resultName'><a>Brewery Name</a></h4> \
+<h5 class='breweryType'></h5> \
+<h5 class='breweryOpen'></h5> \
+<h5 class='breweryContact' style='clear:left'><a class='website'>Website</a> \
+<span class='pipe'> | </span><span class='address-and-locality'><span class='address'></span>\
+<span class='locality'></span></span><span class='pipe'> | </span><span class='phone'>No Phone</span></h5> \
+</p> \
+</li>"
+;
 
-//Holds the breweries or beers or recs depending on what is visible
-var currentArray = [];
-
-var paginationSize = 5;
-
-//When left arrow is clicked
-$( document ).ready( function() {
-	$('#results-pagination .left-arrow').click(function() {
-
-		//Check if we're at first page
-		if (checkIfFirstPage())
-		{
-			return;
-		}
-		else
-		{
-			//TODO see if we need to shift all #s dn
-			//if currentPage is not the first page,
-			//but it is the first visible pagination number
-			//shift all numbers down 1
-		}
-
-		//Move the active class down 1 pagination element
-		showNewActivePagination(-1);
-
-		checkIfFirstPage();
-		checkIfLastPage();
-
-		//display correct breweries
-		listResults();
-	})
-
-	//When right arrow is clicked
-	$('#results-pagination .right-arrow').click(function() {
-
-
-		//Check if we're at last page
-		if (checkIfLastPage())
-		{
-			return;
-		}
-		else
-		{
-			//TODO see if we need to shift all #s up
-			//if currentPage is not the last page,
-			//but it is the last visible pagination number
-			//shift all numbers up 1
-		}
-
-		//Move the active class up 1 pagination element
-		showNewActivePagination(1);
-
-		checkIfFirstPage();
-		checkIfLastPage();
-
-		//display correct breweries
-		listResults();
-	});
-
-	//When an item is clicked
-	$('#results-pagination').on('click', '.pagination-item', function() {
-
-		//get number from clicked element
-		var newPageNum = $(this).children().html();
-
-		var interval = newPageNum - currentPage;
-
-		//If we're not moving between pages, quit
-		if (interval == 0)
-			return;
-
-		showNewActivePagination(interval);
-
-
-		//check if first or last page
-		checkIfFirstPage();
-		checkIfLastPage();
-
-		//display correct breweries
-		listResults();
-	});
-
-});
-
-
-
-//Remove .active from old pagination elt
-//Add .active to new pagination elt
-//Does not check to see if either are available, do checking prior
-//Pass in the interval between the currentPage and the newPage (can be + or -)
-function showNewActivePagination(interval) 
+//Add a brewery to the results list
+function listBrewery(brewery)
 {
-	//Get all pagination elements
-	var paginationItems = $('#results-pagination .pagination-item');
+  var breweryToAdd = $.parseHTML(resultTemplate);
 
-	//Remove active class from old page number
-	var oldPageJquery = $(paginationItems).get(currentPage-1);
-	$(oldPageJquery).removeClass('active');
+  console.log(breweryToAdd);
+  console.log(brewery);
+  
+  //TODO Fix Defaults
+  if (brewery.brewery && brewery.brewery.images && brewery.brewery.images.squareMedium)
+  {
+    var imgTag = $(breweryToAdd).find('img');
+    $(imgTag).prop('src', brewery.brewery.images.squareMedium);
 
-	//move to new a results page
-	currentPage += interval;
+    if (brewery.brewery.nameShortDisplay)
+    {
+      $(imgTag).prop('alt', brewery.brewery.nameShortDisplay + 'Logo');
+    }
+    else if (brewery.brewery.name)
+    {
+      $(imgTag).prop('alt', brewery.brewery.nameShortDisplay + 'Logo');
+    }
+    else
+    {
+      $(imgTag).prop('alt', 'Brewery Logo');
+    }
+  }
 
-	//Add active class to new page number
-	var newPageJquery = $(paginationItems).get(currentPage-1);
-	$(newPageJquery).addClass('active');
+  if (brewery.brewery && brewery.brewery.name)
+  {
+    var nameElt = $(breweryToAdd).find('.breweryName');
+    $(nameElt).html(brewery.brewery.name);
+  }
 
-	// listResults();
-}
+  
 
-//If currentPage is 1, disable left pagination arrow and return true
-//Else enable it and return false
-function checkIfFirstPage()
-{
-	if (currentPage === 1)
-	{
-		//Disable arrow
-		$('#results-pagination .left-arrow').addClass('disabled');
+  // if (brewery.brewery && brewery.brewery.established)
+  // {
+  //   var estElt = $(breweryToAdd).find('.breweryEstablished');
+  //   $(estElt).html('Est. ' + brewery.brewery.established);
+  // }  
 
-		return true;
-	}
+  if (brewery.isClosed)
+  {
+    var openElt = $(breweryToAdd).find('.breweryOpen');
 
-	$('#results-pagination .left-arrow').removeClass('disabled');
+    if (brewery.isClosed === "Y")
+    {
+      if (brewery.yearClosed)
+      {
+        $(openElt).html('CLOSED since ' + brewery.yearClosed);        
+      }
+      else
+      {
+        $(openElt).html('CLOSED');
+      }
 
-	return false;
-}
+      $(openElt).css('color', 'red');
+    }
+    //TODO make green? or not
+    else if (brewery.isClosed === 'N')
+    {
+      // if (brewery.yearOpened)
+      // {
+      //   $(openElt).html('Opened ' + brewery.yearOpened);        
+      // }
+      //  else
+      // {
+      //   $(openElt).html('Open');
+      // }
 
-//If currentPage is the last page, disable right pagination arrow and return true
-//Else enable it and return false
-function checkIfLastPage()
-{
-	if (currentPage === Math.floor(currentArray.length / paginationSize) + 1)
-	{
-		//Disable arrow
-		$('#results-pagination .right-arrow').addClass('disabled');
+      //if brewery is not closed but is not open to public
+      if (brewery.openToPublic && brewery.openToPublic === "N")
+      {
+        $(openElt).html('Not open to the public');
+        $(openElt).css('color', 'red');
+      }
+    }
+  }
 
-		return true;
-	}
+  if (brewery.locationTypeDisplay)
+  {
+    var typeElt = $(breweryToAdd).find('.breweryType');
 
-	$('#results-pagination .right-arrow').removeClass('disabled');
+    $(typeElt).html(brewery.locationTypeDisplay);        
+  }
 
-	return false;
-}
 
-//Old:List breweries in the results section
 
-//Now:List breweries or beers or recs in the result section
-//Range should be [(currentPage-1)*paginationSize, (currentPage*paginationSize)-1]
-//5 is current page size
-function listResults()
-{
-	//Somewhat redundant to clear all but easier than checking which to do
-	$('#results-list').empty();
-	$('#beer-list').empty();
-	$('#recommendations-list').empty();
+  if (brewery.brewery && brewery.brewery.website)
+  {
+    var websiteElt = $(breweryToAdd).find('.breweryContact .website');
 
-	//Get active section
-	// var activeSection = $('#results-tabs li.active').attr('data-section');
+    if ( brewery.brewery.website !== "")
+    {
+      $(websiteElt).prop('href', brewery.brewery.website);
+    }
+  }
+  else
+  {
+    var websiteElt = $(breweryToAdd).find('.breweryContact .website');
 
-	//Save currentPage to the proper variable
-	// if (activeSection === 'brewery-results')
-	// {
-		//i is the brewery index
-		//j counts from 0 to paginationSize-1 to easily see when to stop
-		for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
-		{
-			if (currentArray.length <= i)
-				break;
+    $(websiteElt).html('No Website');
 
-			if (currentArray === breweries)
-				listBrewery(currentArray[i]);
+    $(websiteElt).css('text-decoration', 'none');
+    $(websiteElt).css('color', 'black');
+  }
 
-			else if (currentArray === beers)
-				listBeer(currentArray[i], i, undefined);
+  if (brewery.streetAddress)
+  {
+    var addrElt = $(breweryToAdd).find('.breweryContact .address');
+    $(addrElt).html(brewery.streetAddress + ', ');
+  }  
 
-			else if (currentArray === beerRecs)
-				listBeerRec(currentArray[i], i, undefined);
-		}
+  if (brewery.locality)
+  {
+    var localityElt = $(breweryToAdd).find('.breweryContact .locality');
+    $(localityElt).html(brewery.locality);
+  }  
 
-		//Select the breweries tab
-		// showTabBreweries();
-	// }
-	// else if (activeSection === 'beer-results')
-	// {
-	// 	// beerPage = currentPage;
-	// }
-	// else if (activeSection === 'recommendation-results')
-	// {
-	// 	// recommendationPage = currentPage;
-	// }
-	// else
-	// {
-	// 	alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
-	// }
+  if (brewery.phone)
+  {
+    var phoneElt = $(breweryToAdd).find('.breweryContact .phone');
+    $(phoneElt).html(brewery.phone.replace(/\D/g, ' ').replace(/\s+/g, '.').replace(/^\./, '').replace(/\.$/, ''));
+  }  
 
-	// //Select the breweries tab
-	// showTabBreweries();
+  //Insert the new brewery into the page
+  $('#results-list').append(breweryToAdd);
 }
