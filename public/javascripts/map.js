@@ -3,7 +3,7 @@
 var bounds;// = new google.maps.LatLngBounds();
 var markers = [];
 //Holds the response.data array (list of breweries)
-var breweries;
+var breweries = [];
 
 var resultTemplate =
 "<li class='list-group-item'> \
@@ -11,7 +11,9 @@ var resultTemplate =
 <h4 class='breweryName resultName'><a>Brewery Name</a></h4> \
 <h5 class='breweryType'></h5> \
 <h5 class='breweryOpen'></h5> \
-<h5 class='breweryContact' style='clear:left'><a class='website'>Website</a><span class='pipe'> | </span><span class='address-and-locality'><span class='address'></span><span class='locality'></span></span><span class='pipe'> | </span><span class='phone'>No Phone</span></h5> \
+<h5 class='breweryContact' style='clear:left'><a class='website'>Website</a> \
+<span class='pipe'> | </span><span class='address-and-locality'><span class='address'></span><span class='locality'></span></span> \
+<span class='pipe'> | </span><span class='phone'>No Phone</span></h5> \
 </p> \
 </li>"
 ;
@@ -234,7 +236,7 @@ function plotBreweries(response)
     $('#results-pagination .right-arrow').before(paginationToAdd);
   }
 
-  //set the current page variable (pagination.js)
+  //set the current page variable
   currentPage = 1;
   $('#results-pagination .pagination-item').first().addClass('active');
 
@@ -361,16 +363,17 @@ $( document ).ready( function() {
 
 
     //disable all tab-sections
-    var sections = $('.tab-section');
+    // var sections = $('.tab-section');
 
-    sections.addClass('hidden');
+    // sections.addClass('hidden');
 
 
     //enable the correct current tab-section
     var section = $(this).attr('data-section');
 
-    $('.tab-section[data-section="' + section + '"]').removeClass('hidden');
+    // $('.tab-section[data-section="' + section + '"]').removeClass('hidden');
 
+    showTab(section);
 
     console.log(section);
 
@@ -396,6 +399,28 @@ function showTabRecommendations()
 
 function showTab(sectionName)
 {
+  //Get active section
+  var activeSection = $('#results-tabs li.active').attr('data-section');
+
+  //Save currentPage to the proper variable
+  if (activeSection === 'brewery-results')
+  {
+    breweryPage = currentPage;
+  }
+  else if (activeSection === 'beer-results')
+  {
+    beerPage = currentPage;
+  }
+  else if (activeSection === 'recommendation-results')
+  {
+    recPage = currentPage;
+  }
+  else
+  {
+    alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
+  }
+
+  //Enable proper new section
   $('#results-tabs li').removeClass('active');
 
   $('#results-tabs li[data-section="' + sectionName + '"]').addClass('active');
@@ -405,6 +430,46 @@ function showTab(sectionName)
   sections.addClass('hidden');
 
   $('.tab-section[data-section="' + sectionName + '"]').removeClass('hidden');
+
+  //Load currentPage from proper variable
+  var oldPage = currentPage;
+  // var currentArray = [];    //holds one of breweries, beers, or recs
+  if (sectionName === 'brewery-results')
+  {
+    currentPage = breweryPage;
+    currentArray = breweries;
+  }
+  else if (sectionName === 'beer-results')
+  {
+    currentPage = beerPage;
+    currentArray = beers;
+  }
+  else if (sectionName === 'recommendation-results')
+  {
+    currentPage = recPage;
+    currentArray = beerRecs;
+  }
+
+  //currentPage is only 0 when no values are visible
+  if (currentPage === 0)
+    currentPage = 1;
+
+
+  //Clear pagination numbers
+  $('#results-pagination li.pagination-item').remove();
+
+  //add a nav button for every paginationSize breweries, up to 5
+  for (var i=0; i<currentArray.length/paginationSize && i<5; i++)
+  {
+    var paginationToAdd = $.parseHTML(paginationTemplate);
+
+    $(paginationToAdd).children().html(i+1);
+
+    $('#results-pagination .right-arrow').before(paginationToAdd);
+  }
+
+  //Display the new tab's current page on the pagination numbers
+  showNewActivePagination(currentPage - oldPage);
 }
 
 //When the user presses enter in the location box, trigger the search

@@ -1,4 +1,4 @@
-var beers;
+var beers = [];
 // var beerTemplate = "<li class='list-group-item'>Cras justo odio</li>";
 
 var beerTemplate =

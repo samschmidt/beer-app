@@ -118,6 +118,9 @@ function processAndListRecs(clickedBeer)
 	//List the recs on the page
 	beerRecsByStyleId.forEach(listBeerRec);
 
+	//Save the recommended beers to the global array
+	beerRecs  = beerRecsByStyleId;
+
 	// //Hide all current tab-sections
 	// $('.tab-section').addClass('hidden');
 
@@ -213,13 +216,13 @@ function insertBreweryNameIntoRec(recToAdd)
     	console.log("testestestestes");
 		console.log(response);
 
-		breweries = response.data;
+		var responseBreweries = response.data;
 
 
-		if (breweries !== undefined)
+		if (responseBreweries !== undefined)
 		{
 			var styleElt = $(recToAdd).find('.beerInfo');
-			$(styleElt).html(breweries[0].name);
+			$(styleElt).html(responseBreweries[0].name);
 		}
 	}
 }

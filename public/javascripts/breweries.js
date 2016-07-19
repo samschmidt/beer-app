@@ -1,5 +1,13 @@
 //1-indexed, 0 when no pages visible
 var currentPage = 0;
+
+var breweryPage = 0;
+var beerPage = 0;
+var recPage = 0;
+
+//Holds the breweries or beers or recs depending on what is visible
+var currentArray = [];
+
 var paginationSize = 5;
 
 //When left arrow is clicked
@@ -125,7 +133,7 @@ function checkIfFirstPage()
 //Else enable it and return false
 function checkIfLastPage()
 {
-	if (currentPage === Math.floor(breweries.length / paginationSize) + 1)
+	if (currentPage === Math.floor(currentArray.length / paginationSize) + 1)
 	{
 		//Disable arrow
 		$('#results-pagination .right-arrow').addClass('disabled');
@@ -138,22 +146,56 @@ function checkIfLastPage()
 	return false;
 }
 
-//List breweries in the results section
+//Old:List breweries in the results section
+
+//Now:List breweries or beers or recs in the result section
 //Range should be [(currentPage-1)*paginationSize, (currentPage*paginationSize)-1]
 //5 is current page size
 function listBreweries()
 {
-	//Remove visible breweries
 	$('#results-list li').remove()
 
-	//i is the brewery index
-	//j counts from 0 to paginationSize-1 to easily see when to stop
-	for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
+	//Get active section
+	var activeSection = $('#results-tabs li.active').attr('data-section');
+
+	//Save currentPage to the proper variable
+	if (activeSection === 'brewery-results')
 	{
-		if (breweries.length > i)
-			listBrewery(breweries[i]);
+		//i is the brewery index
+		//j counts from 0 to paginationSize-1 to easily see when to stop
+		for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
+		{
+			if (breweries.length > i)
+				listBrewery(breweries[i]);
+		}
+
+		//Select the breweries tab
+		showTabBreweries();
+	}
+	else if (activeSection === 'beer-results')
+	{
+		// beerPage = currentPage;
+	}
+	else if (activeSection === 'recommendation-results')
+	{
+		// recommendationPage = currentPage;
+	}
+	else
+	{
+		alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
 	}
 
-	//Select the breweries tab
-	showTabBreweries();
+	// //Remove visible breweries
+	// $('#results-list li').remove()
+
+	// //i is the brewery index
+	// //j counts from 0 to paginationSize-1 to easily see when to stop
+	// for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
+	// {
+	// 	if (breweries.length > i)
+	// 		listBrewery(breweries[i]);
+	// }
+
+	// //Select the breweries tab
+	// showTabBreweries();
 }
