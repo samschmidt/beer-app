@@ -356,10 +356,10 @@ $( document ).ready( function() {
   $('#results-tabs li').click(function() {
 
     //disable all tabs
-    $('#results-tabs li').removeClass('active');
+    // $('#results-tabs li').removeClass('active');
 
     //enable the clicked tab
-    $(this).addClass('active');
+    // $(this).addClass('active');
 
 
     //disable all tab-sections
@@ -373,7 +373,11 @@ $( document ).ready( function() {
 
     // $('.tab-section[data-section="' + section + '"]').removeClass('hidden');
 
+
+    //TODO pass this?
     showTab(section);
+
+    listResults();
 
     console.log(section);
 
@@ -433,7 +437,6 @@ function showTab(sectionName)
 
   //Load currentPage from proper variable
   var oldPage = currentPage;
-  // var currentArray = [];    //holds one of breweries, beers, or recs
   if (sectionName === 'brewery-results')
   {
     currentPage = breweryPage;

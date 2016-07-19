@@ -34,7 +34,7 @@ $( document ).ready( function() {
 		checkIfLastPage();
 
 		//display correct breweries
-		listBreweries();
+		listResults();
 	})
 
 	//When right arrow is clicked
@@ -61,7 +61,7 @@ $( document ).ready( function() {
 		checkIfLastPage();
 
 		//display correct breweries
-		listBreweries();
+		listResults();
 	});
 
 	//When an item is clicked
@@ -84,7 +84,7 @@ $( document ).ready( function() {
 		checkIfLastPage();
 
 		//display correct breweries
-		listBreweries();
+		listResults();
 	});
 
 });
@@ -110,6 +110,8 @@ function showNewActivePagination(interval)
 	//Add active class to new page number
 	var newPageJquery = $(paginationItems).get(currentPage-1);
 	$(newPageJquery).addClass('active');
+
+	// listResults();
 }
 
 //If currentPage is 1, disable left pagination arrow and return true
@@ -151,49 +153,50 @@ function checkIfLastPage()
 //Now:List breweries or beers or recs in the result section
 //Range should be [(currentPage-1)*paginationSize, (currentPage*paginationSize)-1]
 //5 is current page size
-function listBreweries()
+function listResults()
 {
-	$('#results-list li').remove()
+	//Somewhat redundant to clear all but easier than checking which to do
+	$('#results-list').empty();
+	$('#beer-list').empty();
+	$('#recommendations-list').empty();
 
 	//Get active section
-	var activeSection = $('#results-tabs li.active').attr('data-section');
+	// var activeSection = $('#results-tabs li.active').attr('data-section');
 
 	//Save currentPage to the proper variable
-	if (activeSection === 'brewery-results')
-	{
+	// if (activeSection === 'brewery-results')
+	// {
 		//i is the brewery index
 		//j counts from 0 to paginationSize-1 to easily see when to stop
 		for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
 		{
-			if (breweries.length > i)
-				listBrewery(breweries[i]);
+			if (currentArray.length <= i)
+				break;
+
+			if (currentArray === breweries)
+				listBrewery(currentArray[i]);
+
+			else if (currentArray === beers)
+				listBeer(currentArray[i], i, undefined);
+
+			else if (currentArray === beerRecs)
+				listBeerRec(currentArray[i], i, undefined);
 		}
 
 		//Select the breweries tab
-		showTabBreweries();
-	}
-	else if (activeSection === 'beer-results')
-	{
-		// beerPage = currentPage;
-	}
-	else if (activeSection === 'recommendation-results')
-	{
-		// recommendationPage = currentPage;
-	}
-	else
-	{
-		alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
-	}
-
-	// //Remove visible breweries
-	// $('#results-list li').remove()
-
-	// //i is the brewery index
-	// //j counts from 0 to paginationSize-1 to easily see when to stop
-	// for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
+		// showTabBreweries();
+	// }
+	// else if (activeSection === 'beer-results')
 	// {
-	// 	if (breweries.length > i)
-	// 		listBrewery(breweries[i]);
+	// 	// beerPage = currentPage;
+	// }
+	// else if (activeSection === 'recommendation-results')
+	// {
+	// 	// recommendationPage = currentPage;
+	// }
+	// else
+	// {
+	// 	alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
 	// }
 
 	// //Select the breweries tab

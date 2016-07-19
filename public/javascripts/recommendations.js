@@ -146,6 +146,7 @@ function listBeerRec(beerRec, index, array)
 
 	//TODO use premium method of brewery/beers?withBreweries=Y
 	//Jquery AJAX
+	//TODO do this outside of this function so it's only done once
 	$.get('/breweriesForBeer?beerId=' + beerRec.id,
 	    insertBreweryNameIntoRec(recToAdd),
 	    "json");

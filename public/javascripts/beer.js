@@ -74,7 +74,8 @@ function listBeers(brewery)
 		//List the beers on the page
 		// beers.forEach(listYearRoundBeers);
 
-		beers.forEach(listBeer);
+		// beers.forEach(listBeer);
+
 
 		// //Hide all current tab-sections
 		// $('.tab-section').addClass('hidden');
@@ -84,6 +85,8 @@ function listBeers(brewery)
 
 		//Show the proper tab-section
 		showTabBeers();
+
+		listResults();
 	};
 }
 
