@@ -1,6 +1,8 @@
-//1-indexed, 0 when no pages visible
+//
+//1-indexed value of the current pagination page being displayed, 0 when no pages visible
 var currentPage = 0;
 
+//These values hold the saved pagination states for each tab
 var breweryPage = 0;
 var beerPage = 0;
 var recPage = 0;
@@ -9,6 +11,13 @@ var recPage = 0;
 //Holds the breweries or beers or recs depending on what is visible
 var currentArray = [];
 
+//Globals that contain the current state of the application
+//One for each main tab of the page
+var breweries = [];
+var beers = [];
+var beerRecs = [];
+
+//How many search results should we show on each pagination page? Currently 1 value for all 3 tabs.
 var paginationSize = 5;
 
 
@@ -17,27 +26,9 @@ var paginationTemplate = "<li class='pagination-item'><a>1</a></li>";
 $( document ).ready( function() {
  
   $('#results-tabs li').click(function() {
-
-    //disable all tabs
-    // $('#results-tabs li').removeClass('active');
-
-    //enable the clicked tab
-    // $(this).addClass('active');
-
-
-    //disable all tab-sections
-    // var sections = $('.tab-section');
-
-    // sections.addClass('hidden');
-
-
     //enable the correct current tab-section
     var section = $(this).attr('data-section');
 
-    // $('.tab-section[data-section="' + section + '"]').removeClass('hidden');
-
-
-    //TODO pass this?
     showTab(section);
 
     listResults();
