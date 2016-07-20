@@ -1,12 +1,10 @@
-var beers = [];
-// var beerTemplate = "<li class='list-group-item'>Cras justo odio</li>";
-
 var beerTemplate =
 "<li class='list-group-item'> \
 <p><img class='main-img' style='float:left; margin-right: 10px;' height='100px' max-width='75px'> \
 <h4 class='beerName resultName'><a>Beer Name</a></h4> \
 <h5 class='beerStyle'>Style</h5> \
-<h5 class='beerInfo' style='line-height: 25px'><span class='abv'></span><span class='pipe'> | </span><span class='ibu'></span> \
+<h5 class='beerInfo' style='line-height: 25px'><span class='abv'></span> \
+<span class='pipe'> | </span><span class='ibu'></span> \
 <img class='beerGlass' style='float:right;' height='40px' max-width='40px'></h5> \
 </p> \
 </li>"
@@ -32,8 +30,6 @@ $( document ).ready( function() {
 		//callback lists the beers on the page
 	});
 });
-
-
 
 
 //Search the BreweryDB for beers that belong to the given brewery
@@ -90,7 +86,9 @@ function listBeers(brewery)
 	};
 }
 
-//Add a brewery to the results list
+/** 
+ * Add a beer to the visible results list.
+ */
 function listBeer(beer, index, array)
 {
 	//if (beer === undefined)
@@ -170,6 +168,9 @@ function listBeer(beer, index, array)
 	$('#beer-list').append(beerToAdd);
 }
 
+
+
+//Unused yet
 function listYearRoundBeers(beer, index, array)
 {
 	console.log(beer);

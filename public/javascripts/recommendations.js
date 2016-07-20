@@ -1,30 +1,31 @@
-var beerRecs = [];
 // var beerRecTemplate = "<li class='list-group-item'>Rec Template</li>";
-
-//TODO make the template much better
-//show brewery, etc.
 
 $( document ).ready( function() {
 	
-	//When a brewery from the results list is selected
+	/**
+	 * Trigger AJAX call when a brewery from the results list is selected.
+	 */
 	$('ul#beer-list').on('click', 'li', function() {
 		console.log('beer clicked');
 
-		//Get beer index
-		var idx = $( "ul#beer-list li" ).index( this );
+		var beerIndex = $( "ul#beer-list li" ).index( this );
+		beerIndex = ((currentPage-1) * paginationSize) + beerIndex;
 
 		//Get brewery id
-		console.log(beers[idx].name);
-		console.log(beers[idx]);
+		console.log(beers[beerIndex].name);
+		console.log(beers[beerIndex]);
 
 
 		//Search for their beers
-		breweryDbBeerRecs(beers[idx]);
+		breweryDbBeerRecs(beers[beerIndex]);
 		//callback lists the beers on the page
 	});
 });
 
-
+/**
+ * Get all beers from all breweries in the global breweries array.
+ * Use $.when.apply callback to process them once all of them arrive.
+ */
 function breweryDbBeerRecs(clickedBeer)
 {
 	console.log("getting beers to choose recs from");
@@ -58,8 +59,10 @@ function breweryDbBeerRecs(clickedBeer)
 	});
 }
 
-//Callback from beersFromBrewery AJAX
-//Add all beers to the beerRecs array so we can evaluate them
+/**
+ * Callback from beersFromBrewery AJAX
+ * Add all beers to the beerRecs array
+ */
 function addBeerstoArray(response)
 {
 	var beers = response.data;
@@ -78,8 +81,10 @@ function addBeerstoArray(response)
 }
 
 
-//Decide which beers are sufficiently similar to the given beer
-//And list them on the page
+/**
+ * Decide which beers are sufficiently similar to the given beer.
+ * Then list them on the page.
+ */
 function processAndListRecs(clickedBeer)
 {
 	console.log("user's beer is ");
@@ -121,20 +126,16 @@ function processAndListRecs(clickedBeer)
 	//Save the recommended beers to the global array
 	beerRecs  = beerRecsByStyleId;
 
-	// //Hide all current tab-sections
-	// $('.tab-section').addClass('hidden');
-
-	// //Show the proper tab-section
-	// $('#tab-beer-recommendations.tab-section').removeClass('hidden');
-
 	//Show the proper tab-section
 	showTabRecommendations();
 }
 
-//Add a brewery to the results list
+/**
+ * Add a beer recommendation to the visible results list.
+ */
 function listBeerRec(beerRec, index, array)
 {
-	listBeer(beerRec, index, array);
+	// listBeer(beerRec, index, array);
 
   // var recToAdd = $.parseHTML(beerRecTemplate);
 
@@ -208,6 +209,11 @@ function listBeerRec(beerRec, index, array)
 	$('#recommendations-list').append(recToAdd);
 }
 
+/**
+ * Currently the breweryDB API won't give use the brewery name back when
+ *  searching for brewery->beers. The premium account allows this.
+ * Must use a separate API call to save each beer's brewery.
+ */
 function insertBreweryNameIntoRec(recToAdd)
 {
 	return function(response, textStatus, jqXHR) {

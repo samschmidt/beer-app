@@ -1,7 +1,4 @@
-//Holds the response.data array (list of breweries)
-var breweries = [];
-
-var resultTemplate =
+var breweryTemplate =
 "<li class='list-group-item'> \
 <p><img style='float:left; margin-right: 10px; margin-bottom: 10px;' height='75px' max-width='75px' \
  src='images/no_image_available.png' alt='No Image Available'> \
@@ -15,10 +12,12 @@ var resultTemplate =
 </li>"
 ;
 
-//Add a brewery to the results list
+/** 
+ * Add a brewery to the visible results list.
+ */
 function listBrewery(brewery)
 {
-  var breweryToAdd = $.parseHTML(resultTemplate);
+  var breweryToAdd = $.parseHTML(breweryTemplate);
 
   console.log(breweryToAdd);
   console.log(brewery);

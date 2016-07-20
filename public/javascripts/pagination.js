@@ -40,21 +40,39 @@ $( document ).ready( function() {
 });
 
 
+/**
+ * Wrapper for showTab(). Call showTab() for breweries.
+ */
 function showTabBreweries()
 {
   showTab('brewery-results');
 }
 
+/**
+ * Wrapper for showTab(). Call showTab() for beers.
+ */
 function showTabBeers()
 {
   showTab('beer-results');
 }
 
+/**
+ * Wrapper for showTab(). Call showTab() for recommendations.
+ */
 function showTabRecommendations()
 {
   showTab('recommendation-results');
 }
 
+/**
+ * Transition from displaying one tab to another.
+ * Save the old tab's currentPage into the appropriate global (breweryPage, etc.).
+ * The display the appropriate tab.
+ * Load currentPage from the appropriate global.
+ * Create pagination buttons for the new tab.
+ * Then display the appropriate data for the value of currentPage.
+ * (If currentPage is 1, show values 1-paginationSize.)
+ */
 function showTab(sectionName)
 {
   //Get active section
@@ -131,7 +149,11 @@ function showTab(sectionName)
   showNewActivePagination(interval);
 }
 
-//When left arrow is clicked
+/**
+ * When left arrow is clicked, attempt to move the active page down by 1.
+ * Decrement current page counter and and highlight the correct page number.
+ * Also disable the left arrow if we're now on the first page.
+ */
 $( document ).ready( function() {
   $('#results-pagination .left-arrow').click(function() {
 
@@ -158,8 +180,12 @@ $( document ).ready( function() {
     listResults();
   })
 
-  //When right arrow is clicked
-  $('#results-pagination .right-arrow').click(function() {
+/**
+ * When right arrow is clicked, attempt to move the active page up by 1.
+ * Increment current page counter and and highlight the correct page number.
+ * Also disable the right arrow if we're now on the last page.
+ */  
+ $('#results-pagination .right-arrow').click(function() {
 
 
     //Check if we're at last page
@@ -185,8 +211,12 @@ $( document ).ready( function() {
     listResults();
   });
 
-  //When an item is clicked
-  $('#results-pagination').on('click', '.pagination-item', function() {
+/**
+ * When a pagination number is clicked, move to that page.
+ * Increment/decrement current page counter and and highlight the correct page number.
+ * Also disable appropriate arrow if we're now on the first/last page.
+ */
+   $('#results-pagination').on('click', '.pagination-item', function() {
 
     //get number from clicked element
     var newPageNum = $(this).children().html();
@@ -212,10 +242,12 @@ $( document ).ready( function() {
 
 
 
-//Remove .active from old pagination elt
-//Add .active to new pagination elt
-//Does not check to see if either are available, do checking prior
-//Pass in the interval between the currentPage and the newPage (can be + or -)
+/**
+ * Remove .active from old pagination elt
+ * Add .active to new pagination elt
+ * Does not check to see if either are available, do checking prior
+ * Pass in the interval between the currentPage and the newPage (can be + or -)
+ */
 function showNewActivePagination(interval) 
 {
   //Get all pagination elements
@@ -232,14 +264,14 @@ function showNewActivePagination(interval)
   var newPageJquery = $(paginationItems).get(currentPage-1);
   $(newPageJquery).addClass('active');
 
-  // listResults();
-
   checkIfFirstPage();
   checkIfLastPage();
 }
 
-//If currentPage is 1, disable left pagination arrow and return true
-//Else enable it and return false
+/** 
+ * If currentPage is 1, disable left pagination arrow and return true.
+ * Else enable it and return false.
+ */
 function checkIfFirstPage()
 {
   if (currentPage === 1)
@@ -255,8 +287,10 @@ function checkIfFirstPage()
   return false;
 }
 
-//If currentPage is the last page, disable right pagination arrow and return true
-//Else enable it and return false
+/**
+ * If currentPage is the last page for the current tab, disable right pagination arrow and return true.
+ * Else enable it and return false.
+ */
 function checkIfLastPage()
 {
   if (currentPage === Math.floor(currentArray.length / paginationSize) + 1)
@@ -272,11 +306,11 @@ function checkIfLastPage()
   return false;
 }
 
-//Old:List breweries in the results section
-
-//Now:List breweries or beers or recs in the result section
-//Range should be [(currentPage-1)*paginationSize, (currentPage*paginationSize)-1]
-//5 is current page size
+/**
+ * List breweries or beers or recs in the result section.
+ * Range to display is [(currentPage-1)*paginationSize, (currentPage*paginationSize)-1]
+ * 5 is current page size (declared globally).
+ */
 function listResults()
 {
   //Somewhat redundant to clear all but easier than checking which to do
@@ -284,45 +318,21 @@ function listResults()
   $('#beer-list').empty();
   $('#recommendations-list').empty();
 
-  //Get active section
-  // var activeSection = $('#results-tabs li.active').attr('data-section');
 
-  //Save currentPage to the proper variable
-  // if (activeSection === 'brewery-results')
-  // {
-    //i is the brewery index
-    //j counts from 0 to paginationSize-1 to easily see when to stop
-    for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
-    {
-      if (currentArray.length <= i)
-        break;
+  //i is the brewery index
+  //j counts from 0 to paginationSize-1 to easily see when to stop
+  for (var i=(currentPage-1)*paginationSize, j=0; j<paginationSize; i++, j++)
+  {
+    if (currentArray.length <= i)
+      break;
 
-      if (currentArray === breweries)
-        listBrewery(currentArray[i]);
+    if (currentArray === breweries)
+      listBrewery(currentArray[i]);
 
-      else if (currentArray === beers)
-        listBeer(currentArray[i], i, undefined);
+    else if (currentArray === beers)
+      listBeer(currentArray[i], i, undefined);
 
-      else if (currentArray === beerRecs)
-        listBeerRec(currentArray[i], i, undefined);
-    }
-
-    //Select the breweries tab
-    // showTabBreweries();
-  // }
-  // else if (activeSection === 'beer-results')
-  // {
-  //  // beerPage = currentPage;
-  // }
-  // else if (activeSection === 'recommendation-results')
-  // {
-  //  // recommendationPage = currentPage;
-  // }
-  // else
-  // {
-  //  alert('error: Section ' + activeSection + ' is not valid! Can only have brewery, beer, and rec sections.');
-  // }
-
-  // //Select the breweries tab
-  // showTabBreweries();
+    else if (currentArray === beerRecs)
+      listBeerRec(currentArray[i], i, undefined);
+  }
 }
