@@ -105,6 +105,7 @@
 
     <!-- Non-Google Maps part of page -->
     <div id="info-display">
+      <div id="test-display">
       <!-- Search results navigation -->
       <ul id="results-tabs" class="nav nav-tabs">
         <li role="presentation" class="active" data-section="brewery-results"><a>Places</a></li>
@@ -129,8 +130,9 @@
           </li>
         </ul>
       </nav>
+    </div>
 
-
+      <div id="search-results-display">
       <span id="tab-brewery-results" class="tab-section" data-section="brewery-results">
         <!-- Search results (breweries) go here -->
         <div>
@@ -150,6 +152,8 @@
         <ul id="recommendations-list" class="list-group">
         </ul>
       </span>
+      </div>  <!-- /#search-results-display -->
+
     </div> <!-- /#info-display -->
 
   </body>
@@ -246,10 +250,18 @@
         float: left;
         width: 55%;
 
-        height: 100%;
-        overflow: scroll;
+        /*height: 100%;*/
+        /*overflow: scroll;*/
         position: fixed;
         top: 250px;
+      }
+
+      #search-results-display {
+        overflow: scroll;
+        height: 100%;
+        position:fixed;
+        width: 55%;
+        /*float:left;*/
       }
 
       .header-container {
@@ -267,11 +279,11 @@
       var windowHeight = $(window).height();
       var windowWidth = $(window).width();
 
-      //For large windows, want #info-display to fill height of window
+      //For large windows, want #search-results-display to fill height of window
       if (windowWidth > 800)
       {
         // Set size of results space to fill page
-        $('#info-display').height($(window).height() - $('.header-container').height() - 50);
+        $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - 50);
 
         console.log('change size');
         console.log($(window).height() - $('.header-container').height() - 50);
@@ -284,13 +296,14 @@
 
       // If the window changes height, resize the results space
       $( window ).resize(function() {
-        $('#info-display').height($(window).height() - $('.header-container').height() - 50);
+        
+        $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - 50);
 
         console.log('change size');
         console.log($(window).height() - $('.header-container').height() - 50);
       });
     });
-    
+
   </script>
 
 </html>
