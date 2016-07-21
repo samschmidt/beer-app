@@ -67,6 +67,14 @@ function listBeers(brewery)
 		$('#beer-list').empty();
 
 
+		console.log(beers);
+
+		beers.sort(compareBeersByAvailability);
+
+		console.log('SORTED\n\n\n');
+
+		console.log(beers);
+
 		//List the beers on the page
 		// beers.forEach(listYearRoundBeers);
 
@@ -168,6 +176,27 @@ function listBeer(beer, index, array)
 	$('#beer-list').append(beerToAdd);
 }
 
+
+
+function compareBeersByAvailability(beer1, beer2)
+{
+	var avail1 = beer1.availableId;
+	var avail2 = beer2.availableId;
+
+	// if (avail1 === undefined)
+		// return 1;
+	// else if (avail2 === undefined)
+		// return -1;
+
+	if (avail1 === 1 && avail2 === 1)
+		return 0;
+	else if (avail1 === 1)
+		return -1;
+	else if (avail2 === 1)
+		return 1;
+
+	return 0;
+}
 
 
 //Unused yet

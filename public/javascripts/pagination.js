@@ -134,11 +134,15 @@ function showTab(sectionName)
   $('#results-pagination li.pagination-item').remove();
 
   //add a nav button for every paginationSize breweries, up to 5
-  for (var i=0; i<currentArray.length/paginationSize && i<5; i++)
+  for (var i=0; i<currentArray.length/paginationSize /*&& i<5*/; i++)
   {
     var paginationToAdd = $.parseHTML(paginationTemplate);
 
     $(paginationToAdd).children().html(i+1);
+
+    //Only add 5 visible buttons
+    if (i>=5)
+      $(paginationToAdd).addClass('hide');
 
     $('#results-pagination .right-arrow').before(paginationToAdd);
   }
@@ -254,15 +258,39 @@ function showNewActivePagination(interval)
   var paginationItems = $('#results-pagination .pagination-item');
 
   //Remove active class from old page number
-  var oldPageJquery = $(paginationItems).get(currentPage-1);
-  $(oldPageJquery).removeClass('active');
+  var oldPaginationItem = $(paginationItems).get(currentPage-1);
+  $(oldPaginationItem).removeClass('active');
 
   //move to new a results page
   currentPage += interval;
 
   //Add active class to new page number
-  var newPageJquery = $(paginationItems).get(currentPage-1);
-  $(newPageJquery).addClass('active');
+  var newPaginationItem = $(paginationItems).get(currentPage-1);
+  $(newPaginationItem).addClass('active');
+
+  //If the new item is not visible, display it
+  if ($(newPaginationItem).hasClass('hide'))
+  {
+    if ($(newPaginationItem).removeClass('hide'))
+
+    var visiblePaginationItems = $(paginationItems).not('.hide');
+
+    //If the new item is the first in the list, disable the last item
+    var paginationItemFirst = $(visiblePaginationItems).get(0);
+    if ($(newPaginationItem).is($(paginationItemFirst)))
+    {
+      paginationLastVisible = $(visiblePaginationItems).get(visiblePaginationItems.length-1);
+      $(paginationLastVisible).addClass('hide');
+    }
+
+    //If the new item is the last in the list, disable the first item
+    var paginationItemLast = $(visiblePaginationItems).get(visiblePaginationItems.length-1);
+    if ($(newPaginationItem).is($(paginationItemLast)))
+    {
+      var paginationFirstVisible = $(visiblePaginationItems).get(0);
+      $(paginationFirstVisible).addClass('hide');
+    }
+  }
 
   checkIfFirstPage();
   checkIfLastPage();
