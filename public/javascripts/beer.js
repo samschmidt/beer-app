@@ -20,10 +20,12 @@ $( document ).ready( function() {
 		//Get brewery index
 		var idx = paginationSize*(currentPage-1) + $( "#results-list .list-group-item" ).index( this );
 
+		//Select the marker on the map that corresponds to this brewery
+		google.maps.event.trigger(markers[idx], 'click');
+
 		//Get brewery id
 		console.log(idx);
 		console.log(breweries[idx].breweryId);
-
 
 		//Search for their beers
 		breweryDbBeersByBreweryId(breweries[idx]);
