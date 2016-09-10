@@ -163,16 +163,11 @@ function plotBrewery(element, index, array)
   marker.addListener('click', function() {
     if (infoWindowGlobal && infoWindowGlobal !== undefined)
       infoWindowGlobal.close();
-    // else
-
-
 
 
     console.log(element);
 
     var infoWindowContentStr = fillInfoWindowTemplateWithBrewery(element);
-
-
 
     infoWindowGlobal = new google.maps.InfoWindow({
       content: infoWindowContentStr
