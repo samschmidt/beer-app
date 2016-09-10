@@ -4,27 +4,22 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!-- Bootstrap - above 3 meta tags *must* come first in head -->
+    <meta name="description" content="Discover local beer, breweries, and bars near you! <TODO> is a simple web app that helps beer lovers find new beers nearby!">
+    <meta name="author" content="Samuel Schmidt">
 
     <!-- TODO make a favicon -->
     <link rel="icon" href="../../favicon.ico">
 
     <title>Beer App - To Be Named</title>
 
-    <!-- Custom styles for this template -->
-    <!-- <link href="starter-template.css" rel="stylesheet"> -->
-
      <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 
        <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -40,7 +35,7 @@
     async defer></script>
 
 
-    <!-- our local scripts -->
+    <!-- App scripts -->
     <script src="javascripts/map.js"></script>
     <script src="javascripts/pagination.js"></script>
     <script src="javascripts/breweries.js"></script>
@@ -56,7 +51,6 @@
   <body>
 
     <!-- Navigation Bar -->
-    <!-- <div> -->
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -74,28 +68,21 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
-    <!-- </nav> -->
     </div>
 
 
     <div class="container header-container" style="height: auto">
-
       <div class="starter-template">
         <h1>Beer!!!</h1>
         <p class="lead">Drink Local. Love Local. Love Beer.</p>
-
-
-        <input id="zoom-to-location-txt" type="text" placeholder="Enter a Location" value="40505">
+          <input id="zoom-to-location-txt" type="text" placeholder="Enter a Location" value="40505">
         <input id="zoom-to-location-btn" type="button" value="Search">
-
 
         <hr>
       </div>
-
-    </div><!-- /.container -->
-
+    </div>
 
 
     <!-- Google Maps map -->
@@ -305,5 +292,4 @@
     });
 
   </script>
-
 </html>

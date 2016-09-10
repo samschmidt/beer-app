@@ -12,6 +12,18 @@ var bounds;// = new google.maps.LatLngBounds();
 //Array that holds all markers displayed on map
 var markers = [];
 
+var infoWindowGlobal;
+
+var infoWindowTemplate = '<div class="infoWindow"> \
+<h2 class="infoWindowHeading"></h2> \
+<div class="infoWindowContent"> \
+<p class="description"> + element.brewery.description \
+</p> \
+<p class="otherinfo"></p> \
+</div> \
+</div>';
+
+
 var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -22,7 +34,6 @@ function initMap() {
 
   //initialize any vars you might need
   bounds = new google.maps.LatLngBounds();
-
 
 
   // var rhinegeist = {lat: 39.117189, lng: -84.520097};
@@ -149,19 +160,59 @@ function plotBrewery(element, index, array)
     title: element.brewery.name
   });
 
-  // var infowindow = new google.maps.InfoWindow({
-  //   content: 'This is the location of RG'
-  // })
+  marker.addListener('click', function() {
+    if (infoWindowGlobal && infoWindowGlobal !== undefined)
+      infoWindowGlobal.close();
+    // else
 
-  // marker.addListener('click', function() {
-  //   infowindow.open(map, marker);
-  // })
+
+
+
+    console.log(element);
+
+    var infoWindowContentStr = fillInfoWindowTemplateWithBrewery(element);
+
+
+
+    infoWindowGlobal = new google.maps.InfoWindow({
+      content: infoWindowContentStr
+    });
+
+    infoWindowGlobal.open(map, marker);
+  });
 
 
   markers.push(marker);
 
   bounds.extend(breweryLatLng);
 }
+
+/**
+ * Fill an infoWindowTemplate string with information from the given brewery.
+ * Return the new, information-filled string
+ */
+function fillInfoWindowTemplateWithBrewery(brewery)
+{
+    var infoWindowContent = $.parseHTML(infoWindowTemplate);
+
+    if (brewery.brewery && brewery.brewery.name)
+    {
+      var nameElt = $(infoWindowContent).find('.infoWindowHeading');
+      nameElt.html(brewery.brewery.name);
+    }
+    if (brewery.brewery && brewery.brewery.description)
+    {
+      var descrElt = $(infoWindowContent).find('.description');
+      descrElt.html(brewery.brewery.description);
+    }
+    if (brewery.yearOpened)
+    {
+      var yearElt = $(infoWindowContent).find('.otherinfo');
+      yearElt.html(brewery.yearOpened);
+    }
+
+    return $(infoWindowContent).prop('outerHTML').toString();
+  }
 
 /**
  * Plot the breweries from BreweryDB onto the map.
