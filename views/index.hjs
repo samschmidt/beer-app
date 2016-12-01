@@ -33,7 +33,7 @@
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9bbwB1cKvuuen7xgmSwhHfTEW-ttFlts&callback=initMap"
     async defer></script>
-
+    <!-- End Bootstrap -->
 
     <!-- App scripts -->
     <script src="javascripts/map.js"></script>
@@ -41,7 +41,6 @@
     <script src="javascripts/breweries.js"></script>
     <script src="javascripts/beer.js"></script>
     <script src="javascripts/recommendations.js"></script>
-
 
     <!-- CSS files -->
   </head>
@@ -73,6 +72,7 @@
     </div>
 
 
+    <!-- Header -->
     <div class="container header-container" style="height: auto">
       <div class="starter-template">
         <h1>Beer!!!</h1>
@@ -173,7 +173,7 @@
 /*
  * Media queries allow the page to display differently for varying screen sizes*/
     @media (max-width: 500px) {
-   
+
       #map {
         /*float: right;*/
         height: 50%;
@@ -283,7 +283,7 @@
 
       // If the window changes height, resize the results space
       $( window ).resize(function() {
-        
+
         $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - 50);
 
         console.log('change size');
