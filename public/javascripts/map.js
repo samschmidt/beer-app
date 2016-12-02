@@ -1,5 +1,5 @@
 /* map.js
-  * 
+  *
   * This file contains code that relates to map functionality.
   * This includes the map definition and the code the plots
   *  breweries onto the map. No beers or recommendations should be
@@ -17,11 +17,27 @@ var infoWindowGlobal;
 var infoWindowTemplate = '<div class="infoWindow"> \
 <h2 class="infoWindowHeading"></h2> \
 <div class="infoWindowContent"> \
-<p class="description"> + element.brewery.description \
-</p> \
 <p class="otherinfo"></p> \
+<p> \
+<span class="description">No description available.</span>\
+<span class="description-more hide"></span>\
+<span class="description-more-click hide">more\
+</p> \
+</p> \
 </div> \
 </div>';
+
+// Events
+$( document ).ready( function() {
+
+  //When the user clicks the "more" text after the brewery description
+  $('#map').on('click', '.description-more-click', function() {
+    // Show more text
+    $(event.target).siblings('.description-more').removeClass('hide');
+    // Hide the more link
+    $(event.target).addClass('hide');
+  });
+});
 
 
 var map;
@@ -34,7 +50,6 @@ function initMap() {
 
   //initialize any vars you might need
   bounds = new google.maps.LatLngBounds();
-
 
   // var rhinegeist = {lat: 39.117189, lng: -84.520097};
   // var marker = new google.maps.Marker({
@@ -57,8 +72,8 @@ function initMap() {
 }//initMap();
 
 
-/** 
- * This function gets us started. It zooms to the user's entered location and plots 
+/**
+ * This function gets us started. It zooms to the user's entered location and plots
  *  the breweries in that location.
  * Called when the user clicks the search button or hits enter.
  */
@@ -84,8 +99,8 @@ function zoomToArea() {
       if (status == google.maps.GeocoderStatus.OK)
       {
         map.setCenter(results[0].geometry.location);
-        
-        console.log("user's location is at latlng " + 
+
+        console.log("user's location is at latlng " +
           results[0].geometry.location.lat() + "  " + results[0].geometry.location.lng());
 
         breweryDbSearchByLatLng(results[0].geometry.location);
@@ -94,13 +109,13 @@ function zoomToArea() {
       {
         alert("We couldn't find that location. Sorry!");
       }
-    });    
+    });
   }
 }
 
 
 $( document ).ready( function() {
-  
+
   /**
     * When the user presses enter in the location box, trigger the search.
     */
@@ -108,7 +123,7 @@ $( document ).ready( function() {
 
   function keypressInBox(e) {
       var code = (e.keyCode ? e.keyCode : e.which);
-      if (code == 13) { //Enter keycode                        
+      if (code == 13) { //Enter keycode
           e.preventDefault();
 
           console.log("enter pressed in box");
@@ -189,21 +204,47 @@ function plotBrewery(element, index, array)
 function fillInfoWindowTemplateWithBrewery(brewery)
 {
     var infoWindowContent = $.parseHTML(infoWindowTemplate);
+    console.log(infoWindowContent);
+
 
     if (brewery.brewery && brewery.brewery.name)
     {
       var nameElt = $(infoWindowContent).find('.infoWindowHeading');
       nameElt.html(brewery.brewery.name);
     }
-    if (brewery.brewery && brewery.brewery.description)
-    {
-      var descrElt = $(infoWindowContent).find('.description');
-      descrElt.html(brewery.brewery.description);
-    }
     if (brewery.yearOpened)
     {
       var yearElt = $(infoWindowContent).find('.otherinfo');
-      yearElt.html(brewery.yearOpened);
+      yearElt.html("Opened in " + brewery.yearOpened);
+    }
+    if (brewery.brewery && brewery.brewery.description)
+    {
+      var descrElt = $(infoWindowContent).find('.description');
+      var descrMoreElt = $(infoWindowContent).find('.description-more');
+      var descrMoreClickElt = $(infoWindowContent).find('.description-more-click');
+
+      var descrString = brewery.brewery.description;
+      var subStrIdx = 50;
+
+      var descriptionBeginning, descriptionEnd;
+      if (descrString.length > subStrIdx)
+      {
+        descriptionBeginning = descrString.substring(0, subStrIdx);
+        descriptionEnd = descrString.substring(subStrIdx, descrString.length);
+        //Show the 'more' link
+        descrMoreClickElt.removeClass('hide');
+      }
+      else
+      {
+        descriptionBeginning = descrString;
+        descriptionEnd = '';
+        //Hide the 'more' link
+        descrMoreClickElt.addClass('hide');
+      }
+
+
+      descrElt.html(descriptionBeginning);
+      descrMoreElt.html(descriptionEnd);
     }
 
     return $(infoWindowContent).prop('outerHTML').toString();
