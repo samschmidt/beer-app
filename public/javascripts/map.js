@@ -21,7 +21,7 @@ var infoWindowTemplate = '<div class="infoWindow"> \
 <p> \
 <span class="description">No description available.</span>\
 <span class="description-more hide"></span>\
-<span class="description-more-click hide">more\
+<a class="description-more-click hide"> more...</a>\
 </p> \
 </p> \
 </div> \
@@ -224,7 +224,7 @@ function fillInfoWindowTemplateWithBrewery(brewery)
       var descrMoreClickElt = $(infoWindowContent).find('.description-more-click');
 
       var descrString = brewery.brewery.description;
-      var subStrIdx = 50;
+      var subStrIdx = 140;
 
       var descriptionBeginning, descriptionEnd;
       if (descrString.length > subStrIdx)
