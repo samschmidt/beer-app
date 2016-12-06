@@ -12,7 +12,7 @@ var breweryTemplate =
 </li>"
 ;
 
-/** 
+/**
  * Add a brewery to the visible results list.
  */
 function listBrewery(brewery)
@@ -21,8 +21,7 @@ function listBrewery(brewery)
 
   console.log(breweryToAdd);
   console.log(brewery);
-  
-  //TODO Fix Defaults
+
   if (brewery.brewery && brewery.brewery.images && brewery.brewery.images.squareMedium)
   {
     var imgTag = $(breweryToAdd).find('img');
@@ -48,13 +47,13 @@ function listBrewery(brewery)
     $(nameElt).html(brewery.brewery.name);
   }
 
-  
+
 
   // if (brewery.brewery && brewery.brewery.established)
   // {
   //   var estElt = $(breweryToAdd).find('.breweryEstablished');
   //   $(estElt).html('Est. ' + brewery.brewery.established);
-  // }  
+  // }
 
   if (brewery.isClosed)
   {
@@ -64,7 +63,7 @@ function listBrewery(brewery)
     {
       if (brewery.yearClosed)
       {
-        $(openElt).html('CLOSED since ' + brewery.yearClosed);        
+        $(openElt).html('CLOSED since ' + brewery.yearClosed);
       }
       else
       {
@@ -73,18 +72,8 @@ function listBrewery(brewery)
 
       $(openElt).css('color', 'red');
     }
-    //TODO make green? or not
     else if (brewery.isClosed === 'N')
     {
-      // if (brewery.yearOpened)
-      // {
-      //   $(openElt).html('Opened ' + brewery.yearOpened);        
-      // }
-      //  else
-      // {
-      //   $(openElt).html('Open');
-      // }
-
       //if brewery is not closed but is not open to public
       if (brewery.openToPublic && brewery.openToPublic === "N")
       {
@@ -98,10 +87,8 @@ function listBrewery(brewery)
   {
     var typeElt = $(breweryToAdd).find('.breweryType');
 
-    $(typeElt).html(brewery.locationTypeDisplay);        
+    $(typeElt).html(brewery.locationTypeDisplay);
   }
-
-
 
   if (brewery.brewery && brewery.brewery.website)
   {
@@ -126,19 +113,19 @@ function listBrewery(brewery)
   {
     var addrElt = $(breweryToAdd).find('.breweryContact .address');
     $(addrElt).html(brewery.streetAddress + ', ');
-  }  
+  }
 
   if (brewery.locality)
   {
     var localityElt = $(breweryToAdd).find('.breweryContact .locality');
     $(localityElt).html(brewery.locality);
-  }  
+  }
 
   if (brewery.phone)
   {
     var phoneElt = $(breweryToAdd).find('.breweryContact .phone');
     $(phoneElt).html(brewery.phone.replace(/\D/g, ' ').replace(/\s+/g, '.').replace(/^\./, '').replace(/\.$/, ''));
-  }  
+  }
 
   //Insert the new brewery into the page
   $('#results-list').append(breweryToAdd);

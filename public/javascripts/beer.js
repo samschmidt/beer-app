@@ -12,10 +12,13 @@ var beerTemplate =
 
 
 $( document ).ready( function() {
-	
+
 	//When a brewery from the results list is selected
 	$('#results-list').on('click', '.list-group-item', function() {
 		console.log('brewery clicked');
+
+		//Enable the beer tab
+		$('#results-tabs li[data-section="beer-results"]').removeClass('disabled');
 
 		//Get brewery index
 		var idx = paginationSize*(currentPage-1) + $( "#results-list .list-group-item" ).index( this );
@@ -48,14 +51,12 @@ function listBeers(brewery)
 {
 	//Define fn pointer to $.get callback so we can pass in the brewery (just above)
 	return function(response, textStatus, jqXHR) {
-    
+
 		console.log(response);
 
 		beers = response.data;
 
-		
 
-		//TODO clean this up
 		if (beers === undefined || beers.length === undefined || beers.length === 0)
 		{
 			//If no beers, show an informative message
@@ -77,26 +78,16 @@ function listBeers(brewery)
 
 		console.log(beers);
 
-		//List the beers on the page
-		// beers.forEach(listYearRoundBeers);
-
-		// beers.forEach(listBeer);
-
-
-		// //Hide all current tab-sections
-		// $('.tab-section').addClass('hidden');
-
-		// //Show the proper tab-section
-		// $('#tab-beer-results.tab-section').removeClass('hidden');
 
 		//Show the proper tab-section
 		showTabBeers();
 
+		//List the beers on the page
 		listResults();
 	};
 }
 
-/** 
+/**
  * Add a beer to the visible results list.
  */
 function listBeer(beer, index, array)

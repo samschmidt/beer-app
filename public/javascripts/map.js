@@ -262,10 +262,9 @@ function plotBreweries(response)
   console.log("Plot the breweries!");
 
   //If no breweries found
-  //TODO display some better message
   if (response.data === undefined)
   {
-    alert('Sorry, we could find no breweries in that area!');
+    alert('Sorry, we couldn\'t find any breweries in that area!');
     return;
   }
 

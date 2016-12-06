@@ -95,9 +95,9 @@
       <div id="test-display">
       <!-- Search results navigation -->
       <ul id="results-tabs" class="nav nav-tabs">
-        <li role="presentation" class="active" data-section="brewery-results"><a>Places</a></li>
-        <li role="presentation" data-section="beer-results"><a>Beers</a></li>
-        <li role="presentation" data-section="recommendation-results"><a>Discovery</a></li>
+        <li role="presentation" class="active"   data-section="brewery-results"><a>Places</a></li>
+        <li role="presentation" class="disabled" data-section="beer-results"><a>Beers</a></li>
+        <li role="presentation" class="disabled" data-section="recommendation-results"><a>Discovery</a></li>
       </ul>
 
       <!-- Pagination numbers -->
@@ -256,7 +256,16 @@
         width: 50%;
       }
     }
-    
+
+    /*li with .disabled class don't fire click events*/
+    li.disabled {
+      pointer-events: none;
+    }
+
+    #results-pagination {
+      display: none;
+    }
+
   </style>
 
   <!-- Space for quick, small scripts to run on page load -->

@@ -1,12 +1,15 @@
 // var beerRecTemplate = "<li class='list-group-item'>Rec Template</li>";
 
 $( document ).ready( function() {
-	
+
 	/**
 	 * Trigger AJAX call when a brewery from the results list is selected.
 	 */
 	$('ul#beer-list').on('click', 'li', function() {
 		console.log('beer clicked');
+
+		//Enable the discover tab
+		$('#results-tabs li[data-section="recommendation-results"]').removeClass('disabled');
 
 		var beerIndex = $( "ul#beer-list li" ).index( this );
 		beerIndex = ((currentPage-1) * paginationSize) + beerIndex;
@@ -29,7 +32,7 @@ $( document ).ready( function() {
 function breweryDbBeerRecs(clickedBeer)
 {
 	console.log("getting beers to choose recs from");
-	
+
 	//Clear out any old recs
 	beerRecs = [];
 
@@ -50,7 +53,7 @@ function breweryDbBeerRecs(clickedBeer)
 				"json")
 		);
 
-			
+
 	}
 
 	//When here, all beers have been retrieved and are in beerRecs
@@ -205,7 +208,7 @@ function listBeerRec(beerRec, index, array)
 		$(ibuElt).html(beerRec.style.ibuMin + '-' + beerRec.style.ibuMax + ' IBUs');
 	}
 
-  
+
 	$('#recommendations-list').append(recToAdd);
 }
 
@@ -217,7 +220,7 @@ function listBeerRec(beerRec, index, array)
 function insertBreweryNameIntoRec(recToAdd)
 {
 	return function(response, textStatus, jqXHR) {
-    
+
     	console.log("testestestestes");
 		console.log(response);
 

@@ -24,7 +24,7 @@ var paginationSize = 5;
 var paginationTemplate = "<li class='pagination-item'><a>1</a></li>";
 
 $( document ).ready( function() {
- 
+
   $('#results-tabs li').click(function() {
     //enable the correct current tab-section
     var section = $(this).attr('data-section');
@@ -133,6 +133,12 @@ function showTab(sectionName)
   //Clear pagination numbers
   $('#results-pagination li.pagination-item').remove();
 
+  //Show the pagination arrows if there are >paginationSize elements
+  if (currentArray.length > paginationSize)
+    $('#results-pagination').css('display', 'inline-block');
+  else
+    $('#results-pagination').css('display', 'none');
+
   //add a nav button for every paginationSize breweries, up to 5
   for (var i=0; i<currentArray.length/paginationSize /*&& i<5*/; i++)
   {
@@ -168,10 +174,6 @@ $( document ).ready( function() {
     }
     else
     {
-      //TODO see if we need to shift all #s dn
-      //if currentPage is not the first page,
-      //but it is the first visible pagination number
-      //shift all numbers down 1
     }
 
     //Move the active class down 1 pagination element
@@ -188,7 +190,7 @@ $( document ).ready( function() {
  * When right arrow is clicked, attempt to move the active page up by 1.
  * Increment current page counter and and highlight the correct page number.
  * Also disable the right arrow if we're now on the last page.
- */  
+ */
  $('#results-pagination .right-arrow').click(function() {
 
 
@@ -199,10 +201,6 @@ $( document ).ready( function() {
     }
     else
     {
-      //TODO see if we need to shift all #s up
-      //if currentPage is not the last page,
-      //but it is the last visible pagination number
-      //shift all numbers up 1
     }
 
     //Move the active class up 1 pagination element
@@ -252,7 +250,7 @@ $( document ).ready( function() {
  * Does not check to see if either are available, do checking prior
  * Pass in the interval between the currentPage and the newPage (can be + or -)
  */
-function showNewActivePagination(interval) 
+function showNewActivePagination(interval)
 {
   //Get all pagination elements
   var paginationItems = $('#results-pagination .pagination-item');
@@ -296,7 +294,7 @@ function showNewActivePagination(interval)
   checkIfLastPage();
 }
 
-/** 
+/**
  * If currentPage is 1, disable left pagination arrow and return true.
  * Else enable it and return false.
  */
