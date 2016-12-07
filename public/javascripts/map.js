@@ -130,6 +130,7 @@ function useMyLocationButtonClick() {
   var userLocInfoWindow = new google.maps.InfoWindow({map: map});
 
   // Try HTML5 geolocation.
+  //https://developers.google.com/maps/documentation/javascript/geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
