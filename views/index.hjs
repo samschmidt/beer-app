@@ -79,6 +79,7 @@
         <p class="lead">Drink Local. Love Local. Love Beer.</p>
           <input id="zoom-to-location-txt" type="text" placeholder="Enter a Location" value="40505">
         <input id="zoom-to-location-btn" type="button" value="Search">
+        <input id="use-my-location-search" type="button" value="Use My Location">
 
         <hr>
       </div>

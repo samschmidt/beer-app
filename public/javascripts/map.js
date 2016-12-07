@@ -12,6 +12,8 @@ var bounds;// = new google.maps.LatLngBounds();
 //Array that holds all markers displayed on map
 var markers = [];
 
+var searchLocation;
+
 var infoWindowGlobal;
 
 var infoWindowTemplate = '<div class="infoWindow"> \
@@ -37,8 +39,9 @@ $( document ).ready( function() {
     // Hide the more link
     $(event.target).addClass('hide');
   });
-});
 
+
+});
 
 var map;
 function initMap() {
@@ -46,7 +49,6 @@ function initMap() {
     center: {lat: 39.117189, lng: -84.520097},
     zoom: 8
   });
-
 
   //initialize any vars you might need
   bounds = new google.maps.LatLngBounds();
@@ -66,8 +68,8 @@ function initMap() {
   //   infowindow.open(map, marker);
   // })
 
-  $('#zoom-to-location-btn').click(zoomToArea);
-
+  $('#zoom-to-location-btn').click(searchButtonClick);
+  $('#use-my-location-search').click(useMyLocationButtonClick);
 
 }//initMap();
 
@@ -82,13 +84,14 @@ function zoomToArea() {
 
   var geocoder = new google.maps.Geocoder();
 
-  var location = $('#zoom-to-location-txt').val().trim();
-  console.log("Loc is '" + location + "'");
+  var location = searchLocation;//$('#zoom-to-location-txt').val().trim();
+  console.log("Loc is");
+  console.log(location);
 
   if (location.length == 0)
   {
-    //do nothing for now
-    //Maybe ask the user for their location
+    // do nothing for now
+    // Maybe ask the user for their location
   }
   else
   {
@@ -113,23 +116,68 @@ function zoomToArea() {
   }
 }
 
+// When the search button is clicked,
+// save the user's location and do the search
+function searchButtonClick() {
+  searchLocation = $('#zoom-to-location-txt').val();
+  zoomToArea();
+}
+
+// When the "use my location" button is clicked,
+// populate the search box and trigger the search
+function useMyLocationButtonClick() {
+  // Ask for user's location
+  var userLocInfoWindow = new google.maps.InfoWindow({map: map});
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      userLocInfoWindow.setPosition(pos);
+      userLocInfoWindow.setContent('Location found.');
+      map.setCenter(pos);
+
+
+      // If provided, save user's location
+      // $('#zoom-to-location-txt').val(pos.lat + ' ' + pos.lng);
+      searchLocation = pos.lat + ", " + pos.lng;
+
+      // Trigger brewery search
+      zoomToArea();
+
+    }, function() {
+      handleLocationError(true, userLocInfoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, userLocInfoWindow, map.getCenter());
+  }
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+    'Error: The Geolocation service failed.' :
+    'Error: Your browser doesn\'t support geolocation.');
+  }
+}
+
 
 $( document ).ready( function() {
-
   /**
     * When the user presses enter in the location box, trigger the search.
     */
   $("#zoom-to-location-txt").bind("keypress", {}, keypressInBox);
 
   function keypressInBox(e) {
-      var code = (e.keyCode ? e.keyCode : e.which);
-      if (code == 13) { //Enter keycode
-          e.preventDefault();
-
-          console.log("enter pressed in box");
-
-          $("#zoom-to-location-btn").click();
-      }
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 13) { //Enter keycode
+        e.preventDefault();
+        $("#zoom-to-location-btn").click();
+    }
   };
 });
 
