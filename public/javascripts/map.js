@@ -53,21 +53,6 @@ function initMap() {
   //initialize any vars you might need
   bounds = new google.maps.LatLngBounds();
 
-  // var rhinegeist = {lat: 39.117189, lng: -84.520097};
-  // var marker = new google.maps.Marker({
-  //   position: rhinegeist,
-  //   map: map,
-  //   title: 'Here be Rhinegeist!'
-  // });
-
-  // var infowindow = new google.maps.InfoWindow({
-  //   content: 'This is the location of RG'
-  // })
-
-  // marker.addListener('click', function() {
-  //   infowindow.open(map, marker);
-  // })
-
   $('#zoom-to-location-btn').click(searchButtonClick);
   $('#use-my-location-search').click(useMyLocationButtonClick);
 
