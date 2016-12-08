@@ -111,8 +111,20 @@ function searchButtonClick() {
 // When the "use my location" button is clicked,
 // populate the search box and trigger the search
 function useMyLocationButtonClick() {
-  // Ask for user's location
-  var userLocInfoWindow = new google.maps.InfoWindow({map: map});
+
+  // Use a marker instead of an InfoWindow to show user location
+  // Image is a blue dot w/ shadow
+  // http://stackoverflow.com/questions/9142833/show-my-location-on-google-maps-api-v3
+  var userLocMarker = new google.maps.Marker({
+  clickable: false,
+  icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                    new google.maps.Size(22,22),
+                                    new google.maps.Point(0,18),
+                                    new google.maps.Point(11,11)),
+    shadow: null,
+    zIndex: 999,
+    map:map // your google.maps.Map object
+  });
 
   // Try HTML5 geolocation.
   //https://developers.google.com/maps/documentation/javascript/geolocation
@@ -123,33 +135,31 @@ function useMyLocationButtonClick() {
         lng: position.coords.longitude
       };
 
-      userLocInfoWindow.setPosition(pos);
-      userLocInfoWindow.setContent('Location found.');
-      map.setCenter(pos);
+    userLocMarker.setPosition(pos);
+    map.setCenter(pos);
 
+    // If provided, save user's location
+    searchLocation = pos.lat + ", " + pos.lng;
 
-      // If provided, save user's location
-      // $('#zoom-to-location-txt').val(pos.lat + ' ' + pos.lng);
-      searchLocation = pos.lat + ", " + pos.lng;
+    // Trigger brewery search
+    zoomToArea();
 
-      // Trigger brewery search
-      zoomToArea();
-
-    }, function() {
-      handleLocationError(true, userLocInfoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, userLocInfoWindow, map.getCenter());
-  }
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-  }
+  }, function() {
+    handleLocationError(true);
+  });
+} else {
+  // Browser doesn't support Geolocation
+  handleLocationError(false);
 }
+
+// Still inside useMyLocationButtonClick()
+function handleLocationError(browserHasGeolocation) {
+  if(browserHasGeolocation)
+    alert('Error: The Geolocation service failed.');
+  else
+    alert('Error: Your browser doesn\'t support geolocation.');
+  }
+} //End useMyLocationButtonClick()
 
 
 $( document ).ready( function() {
