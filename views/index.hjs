@@ -81,6 +81,8 @@
         <input id="zoom-to-location-btn" type="button" value="Search">
         <input id="use-my-location-search" type="button" value="Use My Location">
 
+        <!-- <div class="alert alert-warning" role="alert">Please enable location services in order to search using your location!</div> -->
+
         <hr>
       </div>
     </div>
@@ -94,31 +96,29 @@
     <!-- Non-Google Maps part of page -->
     <div id="info-display">
       <div id="test-display">
-      <!-- Search results navigation -->
-      <ul id="results-tabs" class="nav nav-tabs">
-        <li role="presentation" class="active"   data-section="brewery-results"><a>Places</a></li>
-        <li role="presentation" class="disabled" data-section="beer-results"><a>Beers</a></li>
-        <li role="presentation" class="disabled" data-section="recommendation-results"><a>Discovery</a></li>
-      </ul>
-
-      <!-- Pagination numbers -->
-      <nav>
-        <ul id="results-pagination" class="pagination">
-          <li class="left-arrow">
-            <a aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-            <!-- <li><a href="#">1</a></li> -->
-            <!-- ... -->
-          <li class="right-arrow">
-            <a aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
+        <!-- Search results navigation -->
+        <ul id="results-tabs" class="nav nav-tabs">
+          <li role="presentation" class="active"   data-section="brewery-results"><a>Places</a></li>
+          <li role="presentation" class="disabled" data-section="beer-results"><a>Beers</a></li>
+          <li role="presentation" class="disabled" data-section="recommendation-results"><a>Discovery</a></li>
         </ul>
-      </nav>
-    </div>
+
+        <!-- Pagination numbers -->
+        <nav>
+          <ul id="results-pagination" class="pagination">
+            <li class="left-arrow">
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+           <li class="right-arrow">
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
       <div id="search-results-display">
       <span id="tab-brewery-results" class="tab-section" data-section="brewery-results">
@@ -240,7 +240,8 @@
 
         /*height: 100%;*/
         /*overflow: scroll;*/
-        position: fixed;
+        /* I belive this position fixed line should be out, but may need to be tested on other platforms */
+        /*position: fixed;*/
         top: 250px;
       }
 
@@ -267,6 +268,37 @@
       display: none;
     }
 
+    /* info window style */
+    .info-window-header {
+      background-color: #00274c;
+      color: white;
+
+      font-size: 22px;
+      font-weight: 400;
+      padding: 5px;
+      margin: 1px;
+      border-radius: 2px 2px 0 0;
+    }
+
+    /* alter the element that wraps the info window */
+    /* http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
+    /*.gm-style-iw {
+       width: 350px !important;
+       top: 0 !important;
+       left: 0 !important;
+       border-radius: 2px 2px 0 0;
+     }*/
+
+     .gm-style-iw {
+       width: 350px !important;
+       top: 15px !important; // move the infowindow 15px down
+       left: 0 !important;
+       background-color: #fff;
+       box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+       border: 1px solid rgba(72, 181, 233, 0.6);
+       border-radius: 2px 2px 0 0;
+    }
+
   </style>
 
   <!-- Space for quick, small scripts to run on page load -->
@@ -279,27 +311,24 @@
       //For large windows, want #search-results-display to fill height of window
       if (windowWidth > 800)
       {
-        // Set size of results space to fill page
-        $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - 50);
-
-        console.log('change size');
-        console.log($(window).height() - $('.header-container').height() - 50);
+        resizeResultsArea();
       }
       else //if windowWidth <= 800
       {
-
-
       }
 
       // If the window changes height, resize the results space
-      $( window ).resize(function() {
-
-        $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - 50);
-
-        console.log('change size');
-        console.log($(window).height() - $('.header-container').height() - 50);
-      });
+      $( window ).resize(resizeResultsArea);
     });
+
+    function resizeResultsArea() {
+      var newSize = $(window).height() - $('.header-container').height() - 50 - 30;
+
+      // Set size of results space to fill page
+      $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - $('.navbar').height());
+
+      console.log('Resized the results area to ' + newSize);
+    }
 
   </script>
 </html>

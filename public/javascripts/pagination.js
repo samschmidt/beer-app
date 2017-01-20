@@ -361,4 +361,8 @@ function listResults()
     else if (currentArray === beerRecs)
       listBeerRec(currentArray[i], i, undefined);
   }
+
+  //Resize the results area
+  //Must be done after the first search at least (not sure why)
+  resizeResultsArea();
 }

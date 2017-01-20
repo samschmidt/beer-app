@@ -17,7 +17,9 @@ var searchLocation;
 var infoWindowGlobal;
 
 var infoWindowTemplate = '<div class="infoWindow"> \
+<div class="info-window-header"> \
 <h2 class="infoWindowHeading"></h2> \
+</div> \
 <div class="infoWindowContent"> \
 <p class="otherinfo"></p> \
 <p> \
@@ -232,6 +234,33 @@ function plotBrewery(element, index, array)
       content: infoWindowContentStr
     });
 
+    // Add a listener to clean up the infowindow slightly when it's loaded
+    // http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html
+    google.maps.event.addListener(infoWindowGlobal, 'domready', function() {
+
+       // Reference to the DIV which receives the contents of the infowindow using jQuery
+       var iwOuter = $('.gm-style-iw');
+       var iwBackground = iwOuter.prev();
+
+       // Remove the background shadow DIV
+       iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+       // Remove the white background DIV
+       iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+       // Moves the infowindow 115px to the right.
+       iwOuter.parent().parent().css({left: '115px'});
+       // Moves the shadow of the arrow 76px to the left margin
+      iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+      // Moves the arrow 76px to the left margin
+      iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+      // Changes the desired color for the tail outline.
+      // The outline of the tail is composed of two descendants of div which contains the tail.
+      // The .find('div').children() method refers to all the div which are direct descendants of the previous div.
+      iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+    });
+
+
     infoWindowGlobal.open(map, marker);
   });
 
@@ -336,6 +365,7 @@ function plotBreweries(response)
   showTabBreweries();
   listResults();
 }
+
 
 ////////////////////////////
 ///OLD OR DEPRECATED CODE///
