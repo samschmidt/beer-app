@@ -116,7 +116,12 @@ html, body {
     display: none;
   }
 
-  /* info window style */
+
+
+/**************
+* INFO WINDOW *
+**************/
+
   .info-window-header {
     background-color: #00274c;
     color: white;
@@ -126,14 +131,20 @@ html, body {
     padding: 5px;
     margin: 1px;
     border-radius: 2px 2px 0 0;
+
+    width: 316px;
+  }
+
+  .infoWindow .otherinfo {
+    font-weight: bold;
   }
 
   /* alter the element that wraps the info window */
   /* http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
    .gm-style-iw {
-     width: 300px !important;
-     top: 15px !important; // move the infowindow 15px down
-     right: 115 !important;
+     width: 320px !important;
+     top: 15px !important;
+     right: 115px !important;
      background-color: #fff;
      box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
      border: 1px solid rgba(72, 181, 233, 0.6);

@@ -246,16 +246,7 @@ function plotBrewery(element, index, array)
        // Remove the white background DIV
        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
 
-       // Moves the infowindow 115px to the right.
-       iwOuter.parent().parent().css({left: '115px'});
-       // Moves the shadow of the arrow 76px to the left margin
-       iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
-       // Moves the arrow 76px to the left margin
-       iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
-       // Changes the desired color for the tail outline.
-       // The outline of the tail is composed of two descendants of div which contains the tail.
-       // The .find('div').children() method refers to all the div which are direct descendants of the previous div.
-       iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
 
 
       // Using the .next() method of JQuery you reference the following div to .gm-style-iw.
@@ -286,6 +277,19 @@ function plotBrewery(element, index, array)
       iwCloseBtn.mouseout(function(){
         $(this).css({opacity: '1'});
       });
+
+
+
+      // Moves the infowindow 115px to the right.
+      iwOuter.parent().parent().css({left: '115px'});
+      // Moves the shadow of the arrow 76px to the left margin
+      iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
+      // Moves the arrow 76px to the left margin
+      iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
+      // Changes the desired color for the tail outline.
+      // The outline of the tail is composed of two descendants of div which contains the tail.
+      // The .find('div').children() method refers to all the div which are direct descendants of the previous div.
+      iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
     });
 
     infoWindowGlobal.open(map, marker);
