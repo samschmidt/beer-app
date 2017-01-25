@@ -139,6 +139,11 @@ html, body {
     font-weight: bold;
   }
 
+  .infoWindow .infoWindowContent .description {
+    max-height: 100px;
+    overflow-y: scroll;
+  }
+
   /* alter the element that wraps the info window */
   /* http://en.marnoto.com/2014/09/5-formas-de-personalizar-infowindow.html */
    .gm-style-iw {

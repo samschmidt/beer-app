@@ -23,13 +23,14 @@ var infoWindowTemplate = '<div class="infoWindow"> \
 <div class="infoWindowContent"> \
 <p class="otherinfo"></p> \
 <p> \
-<span class="description">No description available.</span>\
-<span class="description-more hide"></span>\
-<a class="description-more-click hide"> more...</a>\
+<div class="description">No description available.</span>\
 </p> \
 </p> \
 </div> \
 </div>';
+
+// <span class="description-more hide"></span>\
+// <a class="description-more-click hide"> more...</a>\
 
 // Events
 $( document ).ready( function() {
@@ -225,9 +226,6 @@ function plotBrewery(element, index, array)
     if (infoWindowGlobal && infoWindowGlobal !== undefined)
       infoWindowGlobal.close();
 
-
-    console.log(element);
-
     var infoWindowContentStr = fillInfoWindowTemplateWithBrewery(element);
 
     infoWindowGlobal = new google.maps.InfoWindow({
@@ -321,31 +319,31 @@ function fillInfoWindowTemplateWithBrewery(brewery)
     if (brewery.brewery && brewery.brewery.description)
     {
       var descrElt = $(infoWindowContent).find('.description');
-      var descrMoreElt = $(infoWindowContent).find('.description-more');
-      var descrMoreClickElt = $(infoWindowContent).find('.description-more-click');
+      // var descrMoreElt = $(infoWindowContent).find('.description-more');
+      // var descrMoreClickElt = $(infoWindowContent).find('.description-more-click');
 
       var descrString = brewery.brewery.description;
-      var subStrIdx = 140;
-
-      var descriptionBeginning, descriptionEnd;
-      if (descrString.length > subStrIdx)
-      {
-        descriptionBeginning = descrString.substring(0, subStrIdx);
-        descriptionEnd = descrString.substring(subStrIdx, descrString.length);
-        //Show the 'more' link
-        descrMoreClickElt.removeClass('hide');
-      }
-      else
-      {
+      // var subStrIdx = 140;
+      //
+      // var descriptionBeginning, descriptionEnd;
+      // if (descrString.length > subStrIdx)
+      // {
+      //   descriptionBeginning = descrString.substring(0, subStrIdx);
+      //   descriptionEnd = descrString.substring(subStrIdx, descrString.length);
+      //   //Show the 'more' link
+      //   descrMoreClickElt.removeClass('hide');
+      // }
+      // else
+      // {
         descriptionBeginning = descrString;
-        descriptionEnd = '';
+        // descriptionEnd = '';
         //Hide the 'more' link
-        descrMoreClickElt.addClass('hide');
-      }
+        // descrMoreClickElt.addClass('hide');
+      // }
 
 
       descrElt.html(descriptionBeginning);
-      descrMoreElt.html(descriptionEnd);
+      // descrMoreElt.html(descriptionEnd);
     }
 
     return $(infoWindowContent).prop('outerHTML').toString();
