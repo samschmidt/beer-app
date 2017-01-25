@@ -246,18 +246,9 @@ function plotBrewery(element, index, array)
        // Remove the white background DIV
        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
 
-
-
-
       // Using the .next() method of JQuery you reference the following div to .gm-style-iw.
       // Is this div that groups the close button elements.
       var iwCloseBtn = iwOuter.next();
-
-      // Style the outer div
-      // iwOuter.css({
-      //   right: '115px',
-      //   left: 'initial'
-      // });
 
       // Apply the desired effect to the close button
       iwCloseBtn.css({
@@ -278,7 +269,9 @@ function plotBrewery(element, index, array)
         $(this).css({opacity: '1'});
       });
 
+      iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
 
+      // Old css work that may be worth playing with at a later time but is a bit complicated for now
 
       // // Moves the infowindow 115px to the right.
       // iwOuter.parent().parent().css({left: '115px'});
@@ -289,12 +282,16 @@ function plotBrewery(element, index, array)
       // Changes the desired color for the tail outline.
       // The outline of the tail is composed of two descendants of div which contains the tail.
       // The .find('div').children() method refers to all the div which are direct descendants of the previous div.
-      iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+      // Style the outer div
+      // iwOuter.css({
+      //   right: '115px',
+      //   left: 'initial'
+      // });
     });
 
     infoWindowGlobal.open(map, marker);
   });
-
 
   markers.push(marker);
 
