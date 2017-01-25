@@ -254,10 +254,10 @@ function plotBrewery(element, index, array)
       var iwCloseBtn = iwOuter.next();
 
       // Style the outer div
-      iwOuter.css({
-        right: '115px',
-        left: 'initial'
-      });
+      // iwOuter.css({
+      //   right: '115px',
+      //   left: 'initial'
+      // });
 
       // Apply the desired effect to the close button
       iwCloseBtn.css({
@@ -266,7 +266,7 @@ function plotBrewery(element, index, array)
         overflow: 'hidden',
         position: 'absolute',
         opacity: '1', // by default the close button has an opacity of 0.7
-        right: '105px', top: '3px', // button repositioning
+        right: '-15px', top: '3px', // button repositioning
         border: '3px solid #00274c', // increasing button border and new color
         'border-radius': '13px', // circular effect
         'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
@@ -280,12 +280,12 @@ function plotBrewery(element, index, array)
 
 
 
-      // Moves the infowindow 115px to the right.
-      iwOuter.parent().parent().css({left: '115px'});
-      // Moves the shadow of the arrow 76px to the left margin
-      iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
-      // Moves the arrow 76px to the left margin
-      iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 50px !important;'});
+      // // Moves the infowindow 115px to the right.
+      // iwOuter.parent().parent().css({left: '115px'});
+      // // Moves the shadow of the arrow 76px to the left margin
+      // iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 33px !important;'});
+      // // Moves the arrow 76px to the left margin
+      // iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 33px !important;'});
       // Changes the desired color for the tail outline.
       // The outline of the tail is composed of two descendants of div which contains the tail.
       // The .find('div').children() method refers to all the div which are direct descendants of the previous div.

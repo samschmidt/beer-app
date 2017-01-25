@@ -150,3 +150,8 @@ html, body {
      border: 1px solid rgba(72, 181, 233, 0.6);
      border-radius: 7px;
   }
+
+  /* Force allow infoWindow wrapper to be as big as content*/
+  .gm-style-iw > div {
+    max-width: 5000px !important;
+  }
