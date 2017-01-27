@@ -48,8 +48,11 @@ $( document ).ready( function() {
 
 var map;
 function initMap() {
+  // If the user has enabled location search, zoom the map to their location
+  var mapLoJSON = JSON.parse(sessionStorage.getItem('userLocation')) || JSON.parse('{"lat": 39.117189, "lng": -84.520097}');;
+  
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 39.117189, lng: -84.520097},
+    center: mapLoJSON,
     zoom: 8
   });
 
@@ -138,6 +141,11 @@ function useMyLocationButtonClick() {
         lng: position.coords.longitude
       };
 
+    // Save user's position to their session storage
+    sessionStorage.setItem('userLocation', JSON.stringify(pos) );
+    console.log('userLocation');
+    console.log(sessionStorage.getItem('userLocation'));
+
     userLocMarker.setPosition(pos);
     map.setCenter(pos);
 
@@ -165,10 +173,8 @@ function handleLocationError(browserHasGeolocation) {
 } //End useMyLocationButtonClick()
 
 
+// When the user presses enter in the location box, trigger the search.
 $( document ).ready( function() {
-  /**
-    * When the user presses enter in the location box, trigger the search.
-    */
   $("#zoom-to-location-txt").bind("keypress", {}, keypressInBox);
 
   function keypressInBox(e) {

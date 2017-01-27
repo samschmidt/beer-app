@@ -174,7 +174,7 @@
       // Set size of results space to fill page
       $('#search-results-display').height($(window).height() - $('.header-container').height() - $('#test-display').height() - $('.navbar').height());
 
-      console.log('Resized the results area to ' + newSize);
+      // console.log('Resized the results area to ' + newSize);
     }
 
   </script>

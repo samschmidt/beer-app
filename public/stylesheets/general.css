@@ -1,3 +1,11 @@
+/* Keep track of any sessionStorage and localStorage you use
+
+sessionStorage:
+userLocation: holds the user's location once they click the "use my location" search button
+
+
+*/
+
 html, body {
     height: 100%;
     margin: 0;
