@@ -319,31 +319,12 @@ function fillInfoWindowTemplateWithBrewery(brewery)
     if (brewery.brewery && brewery.brewery.description)
     {
       var descrElt = $(infoWindowContent).find('.description');
-      // var descrMoreElt = $(infoWindowContent).find('.description-more');
-      // var descrMoreClickElt = $(infoWindowContent).find('.description-more-click');
 
       var descrString = brewery.brewery.description;
-      // var subStrIdx = 140;
-      //
-      // var descriptionBeginning, descriptionEnd;
-      // if (descrString.length > subStrIdx)
-      // {
-      //   descriptionBeginning = descrString.substring(0, subStrIdx);
-      //   descriptionEnd = descrString.substring(subStrIdx, descrString.length);
-      //   //Show the 'more' link
-      //   descrMoreClickElt.removeClass('hide');
-      // }
-      // else
-      // {
-        descriptionBeginning = descrString;
-        // descriptionEnd = '';
-        //Hide the 'more' link
-        // descrMoreClickElt.addClass('hide');
-      // }
 
+      descriptionBeginning = descrString;
 
       descrElt.html(descriptionBeginning);
-      // descrMoreElt.html(descriptionEnd);
     }
 
     return $(infoWindowContent).prop('outerHTML').toString();

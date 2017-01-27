@@ -139,6 +139,10 @@ html, body {
     font-weight: bold;
   }
 
+  .infoWindow .infoWindowContent {
+    margin-bottom: 5px;
+  }
+
   .infoWindow .infoWindowContent .description {
     max-height: 100px;
     overflow-y: scroll;
